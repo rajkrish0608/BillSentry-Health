@@ -2,16 +2,15 @@
 
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Environment } from "@react-three/drei";
 import ParticleField from "./ParticleField";
 import FloatingDocument from "./FloatingDocument";
 import MetricCards from "./MetricCards";
 
 /**
- * The cinematic 3D hero scene.
+ * The cinematic 3D hero scene — Premium Redesign.
  *
  * Scene Flow (scroll-driven):
- *   0.0 – 0.25  →  Scene 1: Opaque Bill (floating document, blurred particles)
+ *   0.0 – 0.25  →  Scene 1: Opaque Bill (floating document, chaotic particles)
  *   0.25 – 0.50 →  Scene 2: Intelligence Scan (emerald beam sweeps the bill)
  *   0.50 – 0.75 →  Scene 3: Structural Transformation (particles snap to grid)
  *   0.75 – 1.0  →  Scene 4: Confidence Score Reveal (metric cards appear)
@@ -25,7 +24,14 @@ export default function HeroScene3D({
         <Canvas
             camera={{ position: [0, 0, 7], fov: 50 }}
             dpr={[1, 2]}
-            gl={{ antialias: true, alpha: true }}
+            gl={{
+                antialias: true,
+                alpha: false,
+            }}
+            onCreated={({ gl }) => {
+                // Match page background — eliminates the black box
+                gl.setClearColor("#0F172A", 1);
+            }}
             style={{
                 position: "absolute",
                 top: 0,
@@ -36,25 +42,41 @@ export default function HeroScene3D({
             }}
         >
             <Suspense fallback={null}>
-                {/* Subtle ambient + directional lighting */}
-                <ambientLight intensity={0.3} />
-                <directionalLight position={[5, 5, 5]} intensity={0.6} color="#E2E8F0" />
-                <pointLight
-                    position={[-3, 2, 4]}
-                    intensity={0.5}
-                    color="#10B981"
-                    distance={15}
+                {/* Layered lighting for depth */}
+                <ambientLight intensity={0.4} />
+                <directionalLight
+                    position={[5, 5, 5]}
+                    intensity={0.7}
+                    color="#E2E8F0"
                 />
-
-                {/* Soft environment reflections */}
-                <Environment preset="night" />
+                {/* Emerald accent light — top-left */}
+                <pointLight
+                    position={[-4, 3, 4]}
+                    intensity={0.6}
+                    color="#10B981"
+                    distance={20}
+                />
+                {/* Warm amber accent — bottom-right for depth */}
+                <pointLight
+                    position={[4, -2, 3]}
+                    intensity={0.3}
+                    color="#F59E0B"
+                    distance={18}
+                />
+                {/* Subtle blue fill from behind */}
+                <pointLight
+                    position={[0, 0, -5]}
+                    intensity={0.2}
+                    color="#3B82F6"
+                    distance={25}
+                />
 
                 {/* Scene 1 + 2: Floating document with scan shader */}
                 <FloatingDocument scrollProgress={scrollProgress} />
 
                 {/* Scene 2 + 3: Particle field goes from chaos to order */}
                 <ParticleField
-                    count={600}
+                    count={1200}
                     scrollProgress={Math.max(0, (scrollProgress - 0.2) / 0.5)}
                 />
 

@@ -1,6 +1,6 @@
 """
 BillSentry Health - Bill Management Routes
-Handles bill upload, status tracking, and line item retrieval.
+Handles bill upload, processing, status tracking, and line item retrieval.
 """
 
 import os
@@ -66,14 +66,58 @@ async def upload_bill(
     db.commit()
     db.refresh(bill)
 
-    # TODO: Trigger async Celery task for OCR processing
-    # process_bill.delay(bill.id)
+    # Auto-process if sync mode is enabled
+    message = "Bill uploaded successfully."
+    if settings.SYNC_PROCESSING:
+        from app.services.tasks import process_bill
+        result = process_bill(bill.id, db)
+        if result.get("error"):
+            message += f" Processing error: {result['error']}"
+        else:
+            message += (
+                f" Processing complete: {result.get('line_items_count', 0)} items analyzed, "
+                f"risk level: {result.get('risk_level', 'N/A')}"
+            )
+    else:
+        message += " Processing will begin shortly."
+
+    # Refresh status
+    db.refresh(bill)
 
     return BillUploadResponse(
         bill_id=bill.id,
         status=bill.status.value,
-        message="Bill uploaded successfully. Processing will begin shortly.",
+        message=message,
     )
+
+
+@router.post("/{bill_id}/process")
+def trigger_processing(
+    bill_id: int,
+    token: str = Depends(oauth2_scheme),
+    db: Session = Depends(get_db),
+):
+    """Manually trigger (or re-trigger) bill processing."""
+    user_id = _get_user_id(token)
+    bill = db.query(HospitalBill).filter(
+        HospitalBill.id == bill_id,
+        HospitalBill.user_id == user_id,
+    ).first()
+
+    if not bill:
+        raise HTTPException(status_code=404, detail="Bill not found")
+
+    # Clear existing line items if re-processing
+    db.query(BillLineItem).filter(BillLineItem.bill_id == bill_id).delete()
+    db.commit()
+
+    from app.services.tasks import process_bill
+    result = process_bill(bill_id, db)
+
+    if result.get("error"):
+        raise HTTPException(status_code=500, detail=result["error"])
+
+    return result
 
 
 @router.get("/", response_model=List[BillOut])

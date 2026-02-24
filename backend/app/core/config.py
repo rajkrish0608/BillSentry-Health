@@ -14,8 +14,8 @@ class Settings(BaseSettings):
     DEBUG: bool = True
     API_PREFIX: str = "/api/v1"
 
-    # ── Database ──
-    DATABASE_URL: str = "postgresql://billsentry:billsentry@localhost:5432/billsentry_db"
+    # ── Database (SQLite default for local dev) ──
+    DATABASE_URL: str = "sqlite:///./billsentry_dev.db"
 
     # ── Redis ──
     REDIS_URL: str = "redis://localhost:6379/0"
@@ -32,10 +32,18 @@ class Settings(BaseSettings):
     S3_BUCKET_NAME: str = "billsentry-uploads"
 
     # ── CORS ──
-    CORS_ORIGINS: list[str] = ["http://localhost:3000"]
+    CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://localhost:3005"]
 
     # ── File Upload ──
     MAX_UPLOAD_SIZE_MB: int = 15
+
+    # ── OCR Config ──
+    OCR_PROVIDER: str = "tesseract"  # "tesseract" or "google_vision"
+    TESSERACT_CMD: Optional[str] = None  # Path to tesseract binary if not in PATH
+    GOOGLE_VISION_API_KEY: Optional[str] = None
+
+    # ── Processing ──
+    SYNC_PROCESSING: bool = True  # True = process inline, False = use Celery
 
     class Config:
         env_file = ".env"
