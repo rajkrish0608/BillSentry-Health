@@ -2,42 +2,70 @@
 
 /* ────────────────────────────────────────────────────────────────
    BillSentry Health – Premium Design System
-   Inspired by Bloomberg Terminal × Stripe × Apple Dark Mode
+   Specification: Bloomberg Terminal × Stripe Analytics × Apple HIG
+   Source: BillSentry Health Premium SaaS Design.pdf
+
+   ⚠️  Design Rules (from document):
+   - Red (#EF4444) is PROHIBITED for alerts — Amber only
+   - Glassmorphism: exact rgba(255,255,255,0.02) / blur(24px) / border rgba(255,255,255,0.06)
+   - Easing: cubic-bezier(0.17, 0.67, 0.83, 0.67) for all transitions
+   - Micro-interactions (hovers, toggles): 120–150ms
+   - Macro-interactions (modals, graph renders): 300ms max
+   - Row hover: rgba(255,255,255,0.05) at exactly 120ms
+   - Tooltip fade-in: 150ms
+   - CTA hover shadow expand: 200ms
+   - DO NOT use pure white (#FFFFFF) — causes halation against near-black backgrounds
    ──────────────────────────────────────────────────────────────── */
 
-/* ── Design Tokens ── */
+/* ── Token System ── */
 :root {
-  /* Background */
+  /* ─ Backgrounds ─ */
   --bg-primary: #0F172A;
   --bg-secondary: #1E293B;
   --bg-panel: rgba(255, 255, 255, 0.03);
 
-  /* Typography */
+  /* ─ Typography (spec: no pure white — causes halation) ─ */
   --text-primary: #E2E8F0;
   --text-secondary: #94A3B8;
   --text-muted: #64748B;
 
-  /* Accents */
+  /* ─ Accents (from spec table) ─ */
   --accent-emerald: #10B981;
   --accent-emerald-glow: rgba(16, 185, 129, 0.15);
   --accent-amber: #F59E0B;
   --accent-amber-glow: rgba(245, 158, 11, 0.15);
+  /* Red is PROHIBITED — amber used for all warning/risk states */
 
-  /* Borders & Shadows */
-  --border-glass: rgba(255, 255, 255, 0.06);
-  --shadow-deep: 0 10px 40px rgba(0, 0, 0, 0.25);
-  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  /* ─ Glass Panel (exact document spec values) ─ */
+  --glass-bg: rgba(255, 255, 255, 0.02);
+  --glass-blur: 24px;
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-shadow-outer: 0 10px 40px rgba(0, 0, 0, 0.25);
+  --glass-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --glass-border-hover: rgba(255, 255, 255, 0.10);
+  --glass-shadow-hover: 0 14px 50px rgba(0, 0, 0, 0.30);
 
-  /* Motion */
+  /* ─ Row hover (spec: rgba(255,255,255,0.05)) ─ */
+  --row-hover-bg: rgba(255, 255, 255, 0.05);
+
+  /* ─ Motion (spec: cubic-bezier(0.17, 0.67, 0.83, 0.67)) ─ */
   --ease-premium: cubic-bezier(0.17, 0.67, 0.83, 0.67);
   --duration-micro: 120ms;
+  /* hovers, toggles: 120–150ms */
+  --duration-hover: 150ms;
+  /* tooltip fade-in: 150ms */
+  --duration-cta: 200ms;
+  /* CTA hover shadow */
   --duration-macro: 300ms;
+  /* modals, page transitions: max 300ms */
+
+  /* ─ Border ─ */
+  --border-glass: rgba(255, 255, 255, 0.06);
 }
 
 @theme inline {
   --color-bg-primary: var(--bg-primary);
   --color-bg-secondary: var(--bg-secondary);
-  --color-bg-panel: var(--bg-panel);
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
@@ -48,11 +76,13 @@
   --font-data: 'Inter', sans-serif;
 }
 
-/* ── Base ── */
+/* ── Base Reset ── */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
@@ -66,17 +96,26 @@ body {
   color: var(--text-primary);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   line-height: 1.5;
-  margin: 0;
   overflow-x: hidden;
 }
 
-/* ── Typographic Scale ── */
+/* ── Typographic Scale (exact spec values) ──
+   Source: "The Typographic Scale" table in design doc
+
+   Display Header  — Satoshi  48px / 700  / tracking -0.02em / lh 1.1
+   Metric Value    — Inter    36px / 500  / tracking -0.01em / lh 1.2
+   Section Title   — Satoshi  20px / 600  / tracking  0.00em / lh 1.3
+   Data Label      — Inter    13px / 500  / tracking +0.02em / lh 1.5
+   Tabular Data    — Inter    14px / 400  / tracking  0.00em / lh 1.5
+   Micro-copy      — Inter    11px / 500  / tracking +0.04em / lh 1.6  UPPERCASE
+*/
 .text-display {
   font-family: 'Satoshi', sans-serif;
   font-size: 48px;
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.1;
+  color: var(--text-primary);
 }
 
 .text-metric {
@@ -85,13 +124,16 @@ body {
   font-weight: 500;
   letter-spacing: -0.01em;
   line-height: 1.2;
+  color: var(--text-primary);
 }
 
 .text-section-title {
   font-family: 'Satoshi', sans-serif;
   font-size: 20px;
   font-weight: 600;
+  letter-spacing: 0em;
   line-height: 1.3;
+  color: var(--text-primary);
 }
 
 .text-data-label {
@@ -107,7 +149,9 @@ body {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: 400;
+  letter-spacing: 0em;
   line-height: 1.5;
+  color: var(--text-primary);
 }
 
 .text-micro {
@@ -120,27 +164,30 @@ body {
   color: var(--text-muted);
 }
 
-/* ── Premium Glass Panels ── */
+/* ── Glassmorphism (exact document spec)
+   background: rgba(255,255,255,0.02)
+   backdrop-filter: blur(24px)
+   border: 1px solid rgba(255,255,255,0.06)
+   box-shadow: 0 10px 40px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05)
+*/
 .glass-panel {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
   border-radius: 16px;
-  box-shadow:
-    0 10px 40px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  transition: all var(--duration-micro) var(--ease-premium);
+  box-shadow: var(--glass-shadow-outer), var(--glass-shadow-inset);
+  transition:
+    border-color var(--duration-micro) var(--ease-premium),
+    box-shadow var(--duration-micro) var(--ease-premium);
 }
 
 .glass-panel:hover {
-  border-color: rgba(255, 255, 255, 0.1);
-  box-shadow:
-    0 14px 50px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  border-color: var(--glass-border-hover);
+  box-shadow: var(--glass-shadow-hover), var(--glass-shadow-inset);
 }
 
-/* ── Status Badges ── */
+/* ── Status Badges (amber only — red is prohibited per spec) ── */
 .badge-success {
   background: var(--accent-emerald-glow);
   color: var(--accent-emerald);
@@ -149,6 +196,7 @@ body {
   border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
+  font-family: 'Inter', sans-serif;
 }
 
 .badge-warning {
@@ -159,23 +207,30 @@ body {
   border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
+  font-family: 'Inter', sans-serif;
 }
 
-/* ── Buttons ── */
+/* No .badge-danger — amber is used instead of red per design doc */
+
+/* ── Button System ── */
 .btn-primary {
   background: linear-gradient(135deg, var(--accent-emerald), #059669);
   color: #fff;
   font-weight: 600;
+  font-family: 'Inter', sans-serif;
   padding: 12px 28px;
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: all var(--duration-micro) var(--ease-premium);
+  transition:
+    transform var(--duration-cta) var(--ease-premium),
+    box-shadow var(--duration-cta) var(--ease-premium);
   box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
+  /* CTA hover: shadow expands over 200ms (var(--duration-cta)) */
   box-shadow: 0 6px 30px rgba(16, 185, 129, 0.4);
 }
 
@@ -183,11 +238,14 @@ body {
   background: transparent;
   color: var(--text-primary);
   font-weight: 500;
+  font-family: 'Inter', sans-serif;
   padding: 12px 28px;
   border: 1px solid var(--border-glass);
   border-radius: 12px;
   cursor: pointer;
-  transition: all var(--duration-micro) var(--ease-premium);
+  transition:
+    background var(--duration-micro) var(--ease-premium),
+    border-color var(--duration-micro) var(--ease-premium);
 }
 
 .btn-secondary:hover {
@@ -195,10 +253,35 @@ body {
   border-color: rgba(255, 255, 255, 0.12);
 }
 
-/* ── Data Table Rows ── */
-.table-row-hover:hover {
-  background: rgba(255, 255, 255, 0.05);
+/* ── Table Row Hover (spec: rgba(255,255,255,0.05) at 120ms) ── */
+.table-row-hover {
   transition: background var(--duration-micro) var(--ease-premium);
+}
+
+.table-row-hover:hover {
+  background: var(--row-hover-bg);
+}
+
+/* ── Tooltip (spec: fade in 150ms) ── */
+.tooltip {
+  position: absolute;
+  z-index: 50;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-glass);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--text-primary);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-hover) var(--ease-premium);
+  box-shadow: var(--glass-shadow-outer);
+}
+
+.tooltip-trigger:hover .tooltip,
+.tooltip-trigger:focus-within .tooltip {
+  opacity: 1;
 }
 
 /* ── Animations ── */
@@ -207,30 +290,52 @@ body {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
+/* Slow, deliberate pulse — avoids cartoonish bounciness */
 @keyframes pulse-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
   }
+
   50% {
     box-shadow: 0 0 40px rgba(16, 185, 129, 0.4);
   }
 }
 
+/* SVG drawPath animation for security section */
+@keyframes draw-path {
+  from {
+    stroke-dashoffset: 1000;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 .animate-fade-in-up {
-  animation: fadeInUp 0.6s var(--ease-premium) forwards;
+  animation: fadeInUp var(--duration-macro) var(--ease-premium) forwards;
 }
 
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
 }
 
-/* ── Scrollbar ── */
+.animate-draw-path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw-path 2s var(--ease-premium) forwards;
+}
+
+/* ── Custom Scrollbar ── */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -242,8 +347,28 @@ body {
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 3px;
+  transition: background var(--duration-micro) var(--ease-premium);
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Selection ── */
+::selection {
+  background: var(--accent-emerald);
+  color: #fff;
+}
+
+/* ── Focus Ring ── */
+:focus-visible {
+  outline: 2px solid var(--accent-emerald);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Utility: Radial Risk Ring (SVG stroke-dashoffset pattern) ── */
+.risk-ring {
+  transition: stroke-dashoffset 1s var(--ease-premium),
+    stroke 0.5s var(--ease-premium);
 }
