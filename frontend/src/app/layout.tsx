@@ -38,6 +38,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        <meta name="theme-color" content="#0B1120" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/vite.svg" />
         {/* Satoshi font from Fontshare */}
         <link
           href="https://api.fontshare.com/v2/css?f[]=satoshi@700,600,500,400&display=swap"

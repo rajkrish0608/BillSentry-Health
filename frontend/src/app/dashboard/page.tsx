@@ -180,9 +180,15 @@ export default function DashboardOverview() {
                             <Loader2 className="w-8 h-8 text-brand-blue animate-spin" />
                         </div>
                     ) : bills.length === 0 ? (
-                        <div className="p-12 text-center text-brand-gray">
-                            <FileText className="w-12 h-12 text-white/10 mx-auto mb-4" />
-                            <p>No bills uploaded yet. Drop a file above to start.</p>
+                        <div className="p-16 text-center flex flex-col items-center justify-center relative overflow-hidden">
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-brand-blue/10 rounded-full blur-3xl pointer-events-none" />
+                            <div className="w-20 h-20 bg-gradient-to-br from-brand-blue/10 to-brand-teal/10 rounded-2xl flex items-center justify-center mb-4 shadow-inner border border-white/5 relative z-10">
+                                <FileText className="w-10 h-10 text-brand-blue/50" />
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-2 relative z-10">Ready for your first audit</h3>
+                            <p className="text-brand-gray max-w-sm mx-auto relative z-10">
+                                Drag and drop a hospital bill in the widget above to instantly benchmark it against government pricing.
+                            </p>
                         </div>
                     ) : (
                         <div className="overflow-x-auto">
