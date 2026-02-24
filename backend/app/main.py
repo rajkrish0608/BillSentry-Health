@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
 from app.core.database import engine, Base
-from app.api.routes import auth, bills, audit, payments
+from app.api.routes import auth, bills, audit, payments, admin
 
 # Create all database tables (use Alembic migrations in production)
 Base.metadata.create_all(bind=engine)
@@ -34,6 +34,7 @@ app.include_router(auth.router, prefix=settings.API_PREFIX)
 app.include_router(bills.router, prefix=settings.API_PREFIX)
 app.include_router(audit.router, prefix=settings.API_PREFIX)
 app.include_router(payments.router, prefix=settings.API_PREFIX)
+app.include_router(admin.router, prefix=settings.API_PREFIX)
 
 
 @app.get("/")

@@ -32,6 +32,7 @@ class UserOut(BaseModel):
     email: str
     name: Optional[str]
     phone: Optional[str]
+    is_admin: bool
     created_at: datetime
 
     class Config:

@@ -17,7 +17,7 @@ import { useRouter } from 'next/navigation';
 export default function Sidebar() {
     const pathname = usePathname();
     const router = useRouter();
-    const logout = useAuthStore((state) => state.logout);
+    const { logout, user } = useAuthStore();
 
     const navItems = [
         { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
@@ -25,6 +25,10 @@ export default function Sidebar() {
         { name: 'Audit Reports', href: '/dashboard/audits', icon: ShieldCheck },
         { name: 'Settings', href: '/dashboard/settings', icon: Settings },
     ];
+
+    if (user?.is_admin) {
+        navItems.push({ name: 'Admin Panel', href: '/admin', icon: ShieldCheck });
+    }
 
     const handleLogout = () => {
         logout();

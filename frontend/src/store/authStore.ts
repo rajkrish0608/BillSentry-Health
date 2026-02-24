@@ -7,6 +7,7 @@ export interface User {
     email: string;
     name: string | null;
     phone: string | null;
+    is_admin: boolean;
 }
 
 interface AuthState {
