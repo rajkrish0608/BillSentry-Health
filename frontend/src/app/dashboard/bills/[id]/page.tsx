@@ -57,6 +57,31 @@ export default function AuditReportPage() {
     const [items, setItems] = useState<LineItem[]>([]);
     const [report, setReport] = useState<AuditReport | null>(null);
     const [loading, setLoading] = useState(true);
+    const [downloading, setDownloading] = useState(false);
+
+    const handleDownloadDispute = async () => {
+        setDownloading(true);
+        const downloadToast = toast.loading('Generating your legal dispute letter...');
+        try {
+            const res = await api.get(`/bills/${billId}/dispute-letter`, {
+                responseType: 'blob'
+            });
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `Dispute_Letter_Bill_${billId}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+            toast.success('Dispute letter downloaded securely', { id: downloadToast });
+        } catch (error: any) {
+            console.error('Download failed', error);
+            toast.error('Failed to generate letter. No actionable overcharges found.', { id: downloadToast });
+        } finally {
+            setDownloading(false);
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -131,8 +156,13 @@ export default function AuditReportPage() {
                 <div className="flex gap-3">
                     <button className="btn-secondary">Download PDF</button>
                     {report && (isHighRisk || isMediumRisk) && (
-                        <button className="btn-primary bg-red-500 hover:bg-red-600 text-white shadow-red-500/20">
-                            Generate Dispute Letter
+                        <button 
+                            onClick={handleDownloadDispute}
+                            disabled={downloading}
+                            className="btn-primary bg-red-500 hover:bg-red-600 text-white shadow-red-500/20 flex items-center gap-2"
+                        >
+                            {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                            {downloading ? 'Generating...' : 'Generate Dispute Letter'}
                         </button>
                     )}
                 </div>

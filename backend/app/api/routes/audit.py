@@ -4,6 +4,7 @@ Handles audit report retrieval and dispute letter generation.
 """
 
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 from typing import Optional
 
@@ -34,25 +35,27 @@ def get_audit_report(bill_id: int, token: str = Depends(oauth2_scheme), db: Sess
     return report
 
 
-@router.get("/bills/{bill_id}/dispute-letter", response_model=DisputeLetterOut)
+@router.get("/bills/{bill_id}/dispute-letter")
 def get_dispute_letter(
     bill_id: int,
-    target: Optional[str] = "HOSPITAL",
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db),
 ):
-    """Get the latest dispute letter for a bill."""
+    """Generate and download a PDF dispute letter for overcharged items."""
+    from app.services.pdf_generator import generate_dispute_letter
     user_id = _get_user_id(token)
-    bill = db.query(HospitalBill).filter(HospitalBill.id == bill_id, HospitalBill.user_id == user_id).first()
-    if not bill:
-        raise HTTPException(status_code=404, detail="Bill not found")
-
-    letter = (
-        db.query(DisputeLetter)
-        .filter(DisputeLetter.bill_id == bill_id)
-        .order_by(DisputeLetter.created_at.desc())
-        .first()
-    )
-    if not letter:
-        raise HTTPException(status_code=404, detail="Dispute letter not yet generated")
-    return letter
+    
+    try:
+        pdf_bytes = generate_dispute_letter(bill_id, user_id, db)
+        
+        return StreamingResponse(
+            pdf_bytes,
+            media_type="application/pdf",
+            headers={
+                "Content-Disposition": f"attachment; filename=dispute_letter_{bill_id}.pdf"
+            }
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Failed to generate dispute letter")
