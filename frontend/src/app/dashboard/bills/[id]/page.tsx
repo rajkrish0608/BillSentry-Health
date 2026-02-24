@@ -59,9 +59,83 @@ export default function AuditReportPage() {
     const [loading, setLoading] = useState(true);
     const [downloading, setDownloading] = useState(false);
 
-    const handleDownloadDispute = async () => {
+    // Payment State
+    const [showPaymentModal, setShowPaymentModal] = useState(false);
+    const [processingPayment, setProcessingPayment] = useState(false);
+
+    const loadRazorpayScript = () => {
+        return new Promise((resolve) => {
+            const script = document.createElement('script');
+            script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+            script.onload = () => resolve(true);
+            script.onerror = () => resolve(false);
+            document.body.appendChild(script);
+        });
+    };
+
+    const handlePayment = async () => {
+        setProcessingPayment(true);
+        const res = await loadRazorpayScript();
+        if (!res) {
+            toast.error('Razorpay SDK failed to load. Are you online?');
+            setProcessingPayment(false);
+            return;
+        }
+
+        try {
+            // Create order on backend
+            const orderRes = await api.post('/payments/create-order', {
+                bill_id: parseInt(billId),
+                plan: "DISPUTE_LETTER"
+            });
+            const order = orderRes.data;
+
+            const options = {
+                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_dummy",
+                amount: order.amount * 100, // Amount is in currency subunits
+                currency: order.currency,
+                name: "BillSentry Health",
+                description: "Premium Dispute Letter",
+                order_id: order.order_id,
+                handler: async function (response: any) {
+                    try {
+                        const verifyToast = toast.loading('Verifying payment...');
+                        await api.post('/payments/verify', {
+                            razorpay_order_id: response.razorpay_order_id,
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_signature: response.razorpay_signature
+                        });
+                        toast.success('Payment successful!', { id: verifyToast });
+                        setShowPaymentModal(false);
+
+                        // Auto-trigger download
+                        handleDownloadDispute(true);
+                    } catch (err) {
+                        toast.error('Payment verification failed');
+                    }
+                },
+                theme: {
+                    color: "#3b82f6" // brand-blue
+                }
+            };
+
+            const paymentObject = new (window as any).Razorpay(options);
+            paymentObject.on('payment.failed', function (response: any) {
+                toast.error(`Payment Failed: ${response.error.description}`);
+            });
+            paymentObject.open();
+
+        } catch (error) {
+            console.error(error);
+            toast.error('Failed to initialize payment checkout');
+        } finally {
+            setProcessingPayment(false);
+        }
+    };
+
+    const handleDownloadDispute = async (skipToast = false) => {
         setDownloading(true);
-        const downloadToast = toast.loading('Generating your legal dispute letter...');
+        const downloadToast = skipToast ? null : toast.loading('Generating your legal dispute letter...');
         try {
             const res = await api.get(`/bills/${billId}/dispute-letter`, {
                 responseType: 'blob'
@@ -74,10 +148,17 @@ export default function AuditReportPage() {
             link.click();
             document.body.removeChild(link);
             window.URL.revokeObjectURL(url);
-            toast.success('Dispute letter downloaded securely', { id: downloadToast });
+            if (!skipToast) toast.success('Dispute letter downloaded securely', { id: downloadToast as string });
         } catch (error: any) {
-            console.error('Download failed', error);
-            toast.error('Failed to generate letter. No actionable overcharges found.', { id: downloadToast });
+            if (downloadToast) toast.dismiss(downloadToast);
+
+            if (error.response?.status === 402) {
+                // Payment Required
+                setShowPaymentModal(true);
+            } else {
+                console.error('Download failed', error);
+                toast.error('Failed to generate letter. No actionable overcharges found.');
+            }
         } finally {
             setDownloading(false);
         }
@@ -156,8 +237,8 @@ export default function AuditReportPage() {
                 <div className="flex gap-3">
                     <button className="btn-secondary">Download PDF</button>
                     {report && (isHighRisk || isMediumRisk) && (
-                        <button 
-                            onClick={handleDownloadDispute}
+                        <button
+                            onClick={() => handleDownloadDispute(false)}
                             disabled={downloading}
                             className="btn-primary bg-red-500 hover:bg-red-600 text-white shadow-red-500/20 flex items-center gap-2"
                         >
@@ -268,8 +349,8 @@ export default function AuditReportPage() {
                                                         {item.flag === 'OVERCHARGED' && <XCircle className="w-4 h-4 text-red-500" />}
 
                                                         <span className={`text-xs font-bold ${item.flag === 'OK' ? 'text-green-500' :
-                                                                item.flag === 'SUSPICIOUS' ? 'text-amber-500' :
-                                                                    'text-red-500'
+                                                            item.flag === 'SUSPICIOUS' ? 'text-amber-500' :
+                                                                'text-red-500'
                                                             }`}>
                                                             {item.flag}
                                                         </span>
@@ -288,6 +369,48 @@ export default function AuditReportPage() {
                     <Loader2 className="w-12 h-12 text-brand-blue animate-spin mx-auto mb-4" />
                     <h3 className="text-xl font-medium text-white mb-2">Analysis in Progress</h3>
                     <p className="text-brand-gray">Our AI is extracting line items and checking them against government benchmarks...</p>
+                </div>
+            )}
+
+            {/* Payment Modal Override */}
+            {showPaymentModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+                    <div className="bg-brand-navy border border-brand-blue/30 rounded-2xl w-full max-w-md p-6 shadow-2xl relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-blue to-brand-teal"></div>
+                        <button
+                            onClick={() => setShowPaymentModal(false)}
+                            className="absolute top-4 right-4 text-brand-gray hover:text-white"
+                        >
+                            <XCircle className="w-6 h-6" />
+                        </button>
+
+                        <div className="text-center mb-6 mt-4">
+                            <div className="w-16 h-16 bg-brand-blue/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-brand-blue/30">
+                                <FileText className="w-8 h-8 text-brand-blue" />
+                            </div>
+                            <h2 className="text-2xl font-bold text-white">Unlock Dispute Letter</h2>
+                            <p className="text-brand-gray mt-2 text-sm">
+                                Generate a formal legal document tailored to this specific bill, citing government benchmarks and actionable recovery steps.
+                            </p>
+                        </div>
+
+                        <div className="bg-white/5 rounded-xl p-4 mb-6 border border-white/10 flex justify-between items-center">
+                            <span className="text-white font-medium">Premium PDF Generate</span>
+                            <span className="text-xl font-bold text-brand-teal">₹299</span>
+                        </div>
+
+                        <button
+                            onClick={handlePayment}
+                            disabled={processingPayment}
+                            className="w-full btn-primary flex items-center justify-center gap-2 py-3"
+                        >
+                            {processingPayment ? <Loader2 className="w-5 h-5 animate-spin" /> : <ShieldCheck className="w-5 h-5" />}
+                            {processingPayment ? 'Processing...' : 'Pay Securely with Razorpay'}
+                        </button>
+                        <p className="text-center text-xs text-brand-gray/60 mt-4">
+                            Secured by Razorpay. 100% money-back guarantee if the document fails to generate.
+                        </p>
+                    </div>
                 </div>
             )}
         </div>

@@ -45,6 +45,10 @@ class Settings(BaseSettings):
     # ── Processing ──
     SYNC_PROCESSING: bool = True  # True = process inline, False = use Celery
 
+    # ── Payments (Razorpay) ──
+    RAZORPAY_KEY_ID: str = ""
+    RAZORPAY_KEY_SECRET: str = ""
+
     class Config:
         env_file = ".env"
         case_sensitive = True

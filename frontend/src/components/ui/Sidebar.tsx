@@ -9,7 +9,8 @@ import {
     ShieldCheck,
     Settings,
     LogOut,
-    Activity
+    Activity,
+    Users
 } from 'lucide-react';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
@@ -23,6 +24,7 @@ export default function Sidebar() {
         { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
         { name: 'My Bills', href: '/dashboard/bills', icon: FileText },
         { name: 'Audit Reports', href: '/dashboard/audits', icon: ShieldCheck },
+        { name: 'Advisor Network', href: '/dashboard/network', icon: Users },
         { name: 'Settings', href: '/dashboard/settings', icon: Settings },
     ];
 

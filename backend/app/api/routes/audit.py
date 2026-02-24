@@ -10,7 +10,7 @@ from typing import Optional
 
 from app.core.database import get_db
 from app.core.security import decode_access_token, oauth2_scheme
-from app.models.models import HospitalBill, AuditReport, DisputeLetter
+from app.models.models import HospitalBill, AuditReport, DisputeLetter, Payment, PaymentStatus
 from app.schemas.schemas import AuditReportOut, DisputeLetterOut
 
 router = APIRouter(tags=["Audit & Dispute"])
@@ -45,6 +45,16 @@ def get_dispute_letter(
     from app.services.pdf_generator import generate_dispute_letter
     user_id = _get_user_id(token)
     
+    # Check for successful payment
+    payment = db.query(Payment).filter(
+        Payment.bill_id == bill_id,
+        Payment.user_id == user_id,
+        Payment.status == PaymentStatus.SUCCESS
+    ).first()
+    
+    if not payment:
+         raise HTTPException(status_code=402, detail="Payment required to generate dispute letter")
+         
     try:
         pdf_bytes = generate_dispute_letter(bill_id, user_id, db)
         
