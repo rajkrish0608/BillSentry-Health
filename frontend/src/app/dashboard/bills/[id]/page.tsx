@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import api from '@/lib/api';
 import {
@@ -16,6 +16,24 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { format } from 'date-fns';
+import { motion, useInView, useSpring, useTransform } from 'framer-motion';
+
+function Counter({ value, prefix = "", suffix = "" }: { value: number, prefix?: string, suffix?: string }) {
+    const ref = useRef<HTMLSpanElement>(null);
+    const inView = useInView(ref, { once: true, margin: "-50px" });
+    const spring = useSpring(0, { bounce: 0, duration: 2500 });
+    const display = useTransform(spring, (current) =>
+        `${prefix}${Math.round(current).toLocaleString()}${suffix}`
+    );
+
+    useEffect(() => {
+        if (inView) {
+            spring.set(value);
+        }
+    }, [inView, spring, value]);
+
+    return <motion.span ref={ref}>{display}</motion.span>;
+}
 
 interface BillDetail {
     id: number;
@@ -235,14 +253,14 @@ export default function AuditReportPage() {
                 </div>
 
                 <div className="flex gap-3">
-                    <button className="btn-secondary">Download PDF</button>
+                    <button className="px-5 py-2.5 rounded-xl border border-white/10 text-white font-medium hover:bg-white/5 transition-colors">Download PDF</button>
                     {report && (isHighRisk || isMediumRisk) && (
                         <button
                             onClick={() => handleDownloadDispute(false)}
                             disabled={downloading}
-                            className="btn-primary bg-red-500 hover:bg-red-600 text-white shadow-red-500/20 flex items-center gap-2"
+                            className="px-5 py-2.5 rounded-xl bg-red-500 hover:bg-red-400 text-white font-bold shadow-[0_0_20px_rgba(239,68,68,0.3)] flex items-center gap-2 transition-all duration-300 transform hover:scale-105"
                         >
-                            {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                            {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
                             {downloading ? 'Generating...' : 'Generate Dispute Letter'}
                         </button>
                     )}
@@ -252,42 +270,47 @@ export default function AuditReportPage() {
             {report ? (
                 <>
                     {/* Executive Summary Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div className="glass-card p-6 rounded-2xl">
-                            <p className="text-sm font-medium text-brand-gray mb-1">Total Billed</p>
-                            <h3 className="text-3xl font-bold text-white">₹{bill.total_amount?.toLocaleString() || '0'}</h3>
-                            <p className="text-xs text-brand-gray mt-2">{items.length} line items analyzed</p>
-                        </div>
-
-                        <div className={`glass-card p-6 rounded-2xl border ${isHighRisk ? 'border-red-500/30 bg-red-500/5' : isMediumRisk ? 'border-amber-500/30' : 'border-green-500/30'}`}>
-                            <p className="text-sm font-medium text-brand-gray mb-1">Overcharges Found</p>
-                            <h3 className={`text-3xl font-bold ${isHighRisk ? 'text-red-400' : isMediumRisk ? 'text-amber-400' : 'text-green-400'}`}>
-                                ₹{report.total_flagged_amount.toLocaleString()}
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.1 }} className="bg-[#050505]/60 backdrop-blur-xl border border-white/5 p-6 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
+                            <p className="text-[13px] font-bold text-[#8892B0] uppercase tracking-wider mb-2">Total Billed</p>
+                            <h3 className="text-4xl font-bold text-white tracking-tight" style={{ fontFamily: "'Satoshi', sans-serif" }}>
+                                <Counter value={bill.total_amount || 0} prefix="₹" />
                             </h3>
-                            <p className="text-xs text-brand-gray mt-2">
-                                Potential recovery: <span className="text-white font-medium">₹{report.potential_recovery_amount.toLocaleString()}</span>
-                            </p>
-                        </div>
+                            <p className="text-sm text-[#8892B0] mt-3 bg-white/5 inline-block px-3 py-1 rounded-md">{items.length} line items analyzed</p>
+                        </motion.div>
 
-                        <div className="glass-card p-6 rounded-2xl">
-                            <p className="text-sm font-medium text-brand-gray mb-1">Risk Level</p>
-                            <div className="flex items-center gap-3">
-                                {isHighRisk ? <AlertTriangle className="w-8 h-8 text-red-500" /> :
-                                    isMediumRisk ? <AlertCircle className="w-8 h-8 text-amber-500" /> :
-                                        <ShieldCheck className="w-8 h-8 text-green-500" />}
-                                <h3 className={`text-2xl font-bold ${isHighRisk ? 'text-red-400' : isMediumRisk ? 'text-amber-400' : 'text-green-400'}`}>
+                        <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }} className={`bg-[#050505]/60 backdrop-blur-xl border p-6 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] ${isHighRisk ? 'border-red-500/30' : isMediumRisk ? 'border-amber-500/30' : 'border-[#00E676]/30'}`}>
+                            <p className="text-[13px] font-bold text-[#8892B0] uppercase tracking-wider mb-2">Overcharges Found</p>
+                            <h3 className={`text-4xl font-bold tracking-tight ${isHighRisk ? 'text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]' : isMediumRisk ? 'text-amber-500' : 'text-[#00E676] drop-shadow-[0_0_15px_rgba(0,230,118,0.3)]'}`} style={{ fontFamily: "'Satoshi', sans-serif" }}>
+                                <Counter value={report.total_flagged_amount} prefix="₹" />
+                            </h3>
+                            <p className="text-sm text-[#8892B0] mt-3">
+                                Potential recovery: <span className="text-white font-semibold">₹{report.potential_recovery_amount.toLocaleString()}</span>
+                            </p>
+                        </motion.div>
+
+                        <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }} className="bg-[#050505]/60 backdrop-blur-xl border border-white/5 p-6 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
+                            <p className="text-[13px] font-bold text-[#8892B0] uppercase tracking-wider mb-2">Risk Level</p>
+                            <div className="flex items-center gap-4 mt-1">
+                                {isHighRisk ? <AlertTriangle className="w-10 h-10 text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,0.6)]" /> :
+                                    isMediumRisk ? <AlertCircle className="w-10 h-10 text-amber-500" /> :
+                                        <ShieldCheck className="w-10 h-10 text-[#00E676] drop-shadow-[0_0_10px_rgba(0,230,118,0.6)]" />}
+                                <h3 className={`text-3xl font-bold tracking-tight ${isHighRisk ? 'text-red-500' : isMediumRisk ? 'text-amber-500' : 'text-[#00E676]'}`} style={{ fontFamily: "'Satoshi', sans-serif" }}>
                                     {report.risk_level}
                                 </h3>
                             </div>
-                        </div>
+                        </motion.div>
 
-                        <div className="glass-card p-6 rounded-2xl">
-                            <p className="text-sm font-medium text-brand-gray mb-1">AI Confidence</p>
-                            <div className="flex items-center gap-3">
-                                <Activity className="w-8 h-8 text-brand-blue" />
-                                <h3 className="text-2xl font-bold text-white">{(report.confidence_score * 100).toFixed(1)}%</h3>
+                        <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4 }} className="bg-[#050505]/60 backdrop-blur-xl border border-white/5 p-6 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] relative overflow-hidden">
+                            <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-[#00F0FF]/10 blur-[40px] rounded-full"></div>
+                            <p className="text-[13px] font-bold text-[#8892B0] uppercase tracking-wider mb-2 relative z-10">AI Confidence</p>
+                            <div className="flex items-center gap-4 mt-1 relative z-10">
+                                <Activity className="w-10 h-10 text-[#00F0FF] drop-shadow-[0_0_10px_rgba(0,240,255,0.6)]" />
+                                <h3 className="text-3xl font-bold text-[#00F0FF] tracking-tight" style={{ fontFamily: "'Satoshi', sans-serif" }}>
+                                    <Counter value={report.confidence_score * 100} suffix="%" />
+                                </h3>
                             </div>
-                        </div>
+                        </motion.div>
                     </div>
 
                     {/* AI Summary Narrative */}
@@ -306,49 +329,55 @@ export default function AuditReportPage() {
                     </div>
 
                     {/* Line Items Table */}
-                    <div>
-                        <h3 className="text-xl font-semibold text-white mb-4">Line Item Breakdown</h3>
-                        <div className="glass-card rounded-2xl overflow-hidden border border-white/5">
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}>
+                        <h3 className="text-xl font-bold text-white mb-6" style={{ fontFamily: "'Satoshi', sans-serif" }}>Line Item Analysis</h3>
+                        <div className="bg-[#050505]/60 backdrop-blur-xl rounded-3xl overflow-hidden border border-white/5 shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left border-collapse">
                                     <thead>
-                                        <tr className="bg-white/5 border-b border-white/5">
-                                            <th className="px-6 py-4 text-xs font-semibold text-brand-gray uppercase tracking-wider w-1/3">Description</th>
-                                            <th className="px-6 py-4 text-xs font-semibold text-brand-gray uppercase tracking-wider">Category</th>
-                                            <th className="px-6 py-4 text-xs font-semibold text-brand-gray uppercase tracking-wider text-right">Billed Amount</th>
-                                            <th className="px-6 py-4 text-xs font-semibold text-brand-gray uppercase tracking-wider text-right">Gov Limit (Max)</th>
-                                            <th className="px-6 py-4 text-xs font-semibold text-brand-gray uppercase tracking-wider">Status</th>
+                                        <tr className="bg-white/5 border-b border-white/10">
+                                            <th className="px-8 py-5 text-xs font-bold text-[#8892B0] uppercase tracking-widest w-1/3">Description & Flag</th>
+                                            <th className="px-8 py-5 text-xs font-bold text-[#8892B0] uppercase tracking-widest">Category</th>
+                                            <th className="px-8 py-5 text-xs font-bold text-[#8892B0] uppercase tracking-widest text-right">Billed Amount</th>
+                                            <th className="px-8 py-5 text-xs font-bold text-[#8892B0] uppercase tracking-widest text-right">Gov Limit (Max)</th>
+                                            <th className="px-8 py-5 text-xs font-bold text-[#8892B0] uppercase tracking-widest text-center">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-white/5">
-                                        {items.map((item) => (
-                                            <tr key={item.id} className="hover:bg-white/[0.02] transition-colors">
-                                                <td className="px-6 py-4">
-                                                    <p className="text-sm font-medium text-white">{item.raw_description}</p>
+                                        {items.map((item, i) => (
+                                            <motion.tr
+                                                initial={{ opacity: 0, x: -10 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: 0.7 + (i * 0.05) }}
+                                                key={item.id}
+                                                className="hover:bg-white/[0.04] transition-colors group cursor-default"
+                                            >
+                                                <td className="px-8 py-6">
+                                                    <p className="text-sm font-semibold text-white tracking-wide">{item.raw_description}</p>
                                                     {item.flag_reason && item.flag !== 'OK' && (
-                                                        <p className="text-xs text-red-400/80 mt-1">{item.flag_reason}</p>
+                                                        <p className="text-xs text-red-400/80 mt-2 bg-red-500/10 inline-block px-2 py-1 rounded-md border border-red-500/20">{item.flag_reason}</p>
                                                     )}
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <span className="text-xs text-brand-gray bg-white/5 px-2 py-1 rounded-md">
+                                                <td className="px-8 py-6 whitespace-nowrap">
+                                                    <span className="text-[11px] font-medium text-[#8892B0] bg-white/5 px-3 py-1.5 rounded-md border border-white/5 tracking-wider uppercase">
                                                         {item.normalized_category.replace('_', ' ')}
                                                     </span>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-right">
-                                                    <span className="text-sm font-medium text-white">₹{item.total_price.toLocaleString()}</span>
+                                                <td className="px-8 py-6 whitespace-nowrap text-right">
+                                                    <span className="text-sm font-bold text-white tracking-wide">₹{item.total_price.toLocaleString()}</span>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-right">
-                                                    <span className="text-sm text-brand-gray">
+                                                <td className="px-8 py-6 whitespace-nowrap text-right">
+                                                    <span className="text-sm font-medium text-[#8892B0]">
                                                         {item.benchmark_max ? `₹${item.benchmark_max.toLocaleString()}` : '--'}
                                                     </span>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="flex items-center gap-2">
-                                                        {item.flag === 'OK' && <CheckCircle2 className="w-4 h-4 text-green-500" />}
-                                                        {item.flag === 'SUSPICIOUS' && <AlertTriangle className="w-4 h-4 text-amber-500" />}
-                                                        {item.flag === 'OVERCHARGED' && <XCircle className="w-4 h-4 text-red-500" />}
+                                                <td className="px-8 py-6 whitespace-nowrap text-center">
+                                                    <div className="flex items-center justify-center gap-2">
+                                                        {item.flag === 'OK' && <CheckCircle2 className="w-5 h-5 text-[#00E676]" />}
+                                                        {item.flag === 'SUSPICIOUS' && <AlertTriangle className="w-5 h-5 text-amber-500" />}
+                                                        {item.flag === 'OVERCHARGED' && <XCircle className="w-5 h-5 text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.5)]" />}
 
-                                                        <span className={`text-xs font-bold ${item.flag === 'OK' ? 'text-green-500' :
+                                                        <span className={`text-[11px] font-bold tracking-widest uppercase ${item.flag === 'OK' ? 'text-[#00E676]' :
                                                             item.flag === 'SUSPICIOUS' ? 'text-amber-500' :
                                                                 'text-red-500'
                                                             }`}>
@@ -356,13 +385,13 @@ export default function AuditReportPage() {
                                                         </span>
                                                     </div>
                                                 </td>
-                                            </tr>
+                                            </motion.tr>
                                         ))}
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
                 </>
             ) : (
                 <div className="glass-card p-12 text-center rounded-2xl border border-white/5">

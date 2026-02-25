@@ -113,17 +113,16 @@ function Navbar() {
 
   return (
     <nav
-      className="fixed top-0 left-0 w-full z-50 transition-all"
+      className="fixed top-0 left-0 w-full z-50 transition-all duration-500"
       style={{
         background: scrolled
-          ? "rgba(15, 23, 42, 0.85)"
+          ? "rgba(5, 5, 5, 0.7)"
           : "transparent",
-        backdropFilter: scrolled ? "blur(20px)" : "none",
-        WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
+        backdropFilter: scrolled ? "blur(30px) saturate(150%)" : "none",
+        WebkitBackdropFilter: scrolled ? "blur(30px) saturate(150%)" : "none",
         borderBottom: scrolled
-          ? "1px solid rgba(255,255,255,0.06)"
+          ? "1px solid rgba(255, 255, 255, 0.05)"
           : "1px solid transparent",
-        transition: "all 0.3s cubic-bezier(0.17, 0.67, 0.83, 0.67)",
       }}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
@@ -134,15 +133,15 @@ function Navbar() {
               width: 32,
               height: 32,
               borderRadius: 8,
-              background:
-                "linear-gradient(135deg, #00F0FF 0%, #00E676 100%)",
+              background: "linear-gradient(135deg, rgba(0,240,255,0.15) 0%, rgba(0,230,118,0.15) 100%)",
+              border: "1px solid rgba(0,240,255,0.4)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               fontWeight: 700,
               fontSize: 14,
-              color: "#050505",
-              boxShadow: "0 2px 12px rgba(0, 240, 255, 0.3)",
+              color: "#00F0FF",
+              boxShadow: "0 0 15px rgba(0, 240, 255, 0.2)",
             }}
           >
             BS
@@ -166,24 +165,19 @@ function Navbar() {
               <a
                 key={item}
                 href={`#${item.toLowerCase().replace(/ /g, "-")}`}
-                className="text-data-label"
+                className="text-data-label relative group tracking-wide"
                 style={{
                   color: "var(--text-secondary)",
                   textDecoration: "none",
-                  transition:
-                    "color var(--duration-micro) var(--ease-premium)",
+                  transition: "color var(--duration-micro) var(--ease-premium)",
                   cursor: "pointer",
                 }}
-                onMouseEnter={(e) =>
-                (e.currentTarget.style.color =
-                  "var(--text-primary)")
-                }
-                onMouseLeave={(e) =>
-                (e.currentTarget.style.color =
-                  "var(--text-secondary)")
-                }
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#FFFFFF")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}
               >
                 {item}
+                {/* Magnetic Hover Line */}
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-gradient-to-r from-[#00F0FF] to-[#00E676] transition-all duration-300 group-hover:w-full"></span>
               </a>
             )
           )}
@@ -205,7 +199,7 @@ function Navbar() {
           </button>
         </div>
       </div>
-    </nav>
+    </nav >
   );
 }
 

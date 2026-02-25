@@ -1,21 +1,28 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
 import Sidebar from '@/components/ui/Sidebar';
 import TopNav from '@/components/ui/TopNav';
 import { Loader2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const { isAuthenticated, checkAuth, isLoading } = useAuthStore();
     const [mounted, setMounted] = useState(false);
+    const pathname = usePathname();
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
-        setMounted(true);
-        checkAuth();
-    }, [checkAuth]);
+        if (mounted) {
+            checkAuth();
+        }
+    }, [checkAuth, mounted]);
 
     // Handle client-side auth redirection
     useEffect(() => {
@@ -39,12 +46,22 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <Sidebar />
 
             {/* Main Content Area */}
-            <div className="flex-1 ml-64 flex flex-col h-screen overflow-hidden">
+            <div className="flex-1 ml-[280px] flex flex-col h-screen overflow-hidden">
                 <TopNav />
-                <main className="flex-1 overflow-y-auto p-8 bg-[url('/grid.svg')] bg-center">
-                    <div className="absolute inset-0 bg-brand-navy/90 pointer-events-none -z-10" />
+                <main className="flex-1 overflow-y-auto p-8 bg-[url('/grid.svg')] bg-center relative">
+                    <div className="absolute inset-0 bg-[#050505]/95 pointer-events-none -z-10" />
                     <div className="max-w-6xl mx-auto z-10 relative">
-                        {children}
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={pathname}
+                                initial={{ opacity: 0, y: 15 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -15 }}
+                                transition={{ duration: 0.4, ease: "easeOut" }}
+                            >
+                                {children}
+                            </motion.div>
+                        </AnimatePresence>
                     </div>
                 </main>
             </div>
