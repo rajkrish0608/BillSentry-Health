@@ -48,23 +48,23 @@ export default function ProfessionalNetworkPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">Advisor Network</h1>
-                    <p className="text-brand-gray">Connect with verified Medical Auditors and Consumer Lawyers to escalate your dispute.</p>
+                    <h1 className="text-3xl font-bold text-black mb-2">Advisor Network</h1>
+                    <p className="text-gray-600">Connect with verified Medical Auditors and Consumer Lawyers to escalate your dispute.</p>
                 </div>
                 <div className="flex items-center gap-2 bg-brand-blue/10 px-4 py-2 rounded-xl border border-brand-blue/20">
-                    <ShieldCheck className="w-5 h-5 text-brand-blue" />
-                    <span className="text-sm font-medium text-brand-blue">100% Verified Professionals</span>
+                    <ShieldCheck className="w-5 h-5 text-black" />
+                    <span className="text-sm font-medium text-black">100% Verified Professionals</span>
                 </div>
             </div>
 
             {/* Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {advisors.map((advisor) => (
-                    <div key={advisor.id} className="glass-card rounded-2xl p-6 flex flex-col md:flex-row gap-6 border border-white/5 hover:border-brand-blue/30 transition-colors group">
+                    <div key={advisor.id} className="glass-card rounded-2xl p-6 flex flex-col md:flex-row gap-6 border border-gray-200 hover:border-brand-blue/30 transition-colors group">
 
                         {/* Avatar Column */}
                         <div className="flex flex-col items-center flex-shrink-0">
-                            <div className="relative w-24 h-24 rounded-2xl overflow-hidden mb-3 border-2 border-white/10 group-hover:border-brand-blue transition-colors shadow-lg">
+                            <div className="relative w-24 h-24 rounded-2xl overflow-hidden mb-3 border-2 border-gray-200 group-hover:border-brand-blue transition-colors shadow-lg">
                                 {/* Use unoptimized for external unsplash images in demo to prevent next/image build issues if domains aren't configured */}
                                 <Image src={advisor.image} alt={advisor.name} fill className="object-cover" unoptimized />
                             </div>
@@ -80,26 +80,26 @@ export default function ProfessionalNetworkPage() {
                         <div className="flex-1 w-full">
                             <div className="flex justify-between items-start mb-1">
                                 <div>
-                                    <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                                    <h3 className="text-xl font-bold text-black flex items-center gap-2">
                                         {advisor.name}
-                                        <Award className="w-4 h-4 text-brand-blue" />
+                                        <Award className="w-4 h-4 text-black" />
                                     </h3>
-                                    <p className="text-brand-gray text-sm">{advisor.role}</p>
+                                    <p className="text-gray-600 text-sm">{advisor.role}</p>
                                 </div>
                                 <div className="flex items-center gap-1 bg-yellow-500/10 px-2 py-1 rounded-lg">
                                     <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
                                     <span className="text-sm font-bold text-yellow-500">{advisor.rating}</span>
-                                    <span className="text-xs text-brand-gray ml-1">({advisor.reviews})</span>
+                                    <span className="text-xs text-gray-600 ml-1">({advisor.reviews})</span>
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-2 gap-y-2 mt-4 mb-4">
-                                <div className="flex items-center gap-2 text-sm text-brand-gray">
-                                    <MapPin className="w-4 h-4 text-brand-gray/60" />
+                                <div className="flex items-center gap-2 text-sm text-gray-600">
+                                    <MapPin className="w-4 h-4 text-gray-600/60" />
                                     {advisor.location}
                                 </div>
-                                <div className="flex items-center gap-2 text-sm text-brand-gray">
-                                    <Award className="w-4 h-4 text-brand-gray/60" />
+                                <div className="flex items-center gap-2 text-sm text-gray-600">
+                                    <Award className="w-4 h-4 text-gray-600/60" />
                                     {advisor.experience} Exp.
                                 </div>
                             </div>
@@ -107,7 +107,7 @@ export default function ProfessionalNetworkPage() {
                             <div className="mb-6">
                                 <div className="flex flex-wrap gap-2">
                                     {advisor.expertise.map((skill, idx) => (
-                                        <span key={idx} className="text-xs font-medium text-brand-blue bg-brand-blue/10 px-2 py-1 rounded-md border border-brand-blue/20">
+                                        <span key={idx} className="text-xs font-medium text-black bg-brand-blue/10 px-2 py-1 rounded-md border border-brand-blue/20">
                                             {skill}
                                         </span>
                                     ))}
@@ -132,8 +132,8 @@ export default function ProfessionalNetworkPage() {
                     <InfoIcon />
                 </div>
                 <div>
-                    <h3 className="text-lg font-bold text-white mb-1">Why do I need a professional?</h3>
-                    <p className="text-brand-gray text-sm leading-relaxed">
+                    <h3 className="text-lg font-bold text-black mb-1">Why do I need a professional?</h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">
                         While our AI-generated Dispute Letters are designed to be highly effective, some hospitals may still refuse to negotiate heavily padded bills. In these scenarios, escalating the matter to a verified Consumer Court advocate or bringing in a Medical Auditor to speak directly to the hospital's billing department dramatically increases your chances of a successful refund.
                     </p>
                 </div>
@@ -144,7 +144,7 @@ export default function ProfessionalNetworkPage() {
 
 function InfoIcon() {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-blue">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-black">
             <circle cx="12" cy="12" r="10"></circle>
             <path d="M12 16v-4"></path>
             <path d="M12 8h.01"></path>

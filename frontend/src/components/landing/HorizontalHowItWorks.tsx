@@ -63,7 +63,7 @@ export default function HorizontalHowItWorks() {
     }, []);
 
     return (
-        <section ref={containerRef} className="relative h-screen w-full bg-[#050505] overflow-hidden flex flex-col justify-center">
+        <section ref={containerRef} className="relative h-screen w-full bg-white overflow-hidden flex flex-col justify-center">
             {/* Background radial glow */}
             <div
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full point-events-none"
@@ -79,7 +79,7 @@ export default function HorizontalHowItWorks() {
                     className="text-micro inline-block mb-4 px-5 py-2 rounded-full"
                     style={{
                         border: "1px solid rgba(0, 230, 118, 0.2)",
-                        color: "#00E676",
+                        color: "#111827",
                         background: "rgba(0, 230, 118, 0.05)",
                         boxShadow: "0 0 20px rgba(0, 230, 118, 0.1)",
                     }}
@@ -140,7 +140,7 @@ export default function HorizontalHowItWorks() {
                                         style={{
                                             background: "linear-gradient(135deg, rgba(0, 240, 255, 0.15) 0%, rgba(0, 230, 118, 0.15) 100%)",
                                             border: "1px solid rgba(0, 240, 255, 0.2)",
-                                            color: "#00F0FF",
+                                            color: "#000000",
                                             boxShadow: "0 0 20px rgba(0, 240, 255, 0.15)"
                                         }}
                                     >

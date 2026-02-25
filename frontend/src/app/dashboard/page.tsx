@@ -93,30 +93,30 @@ export default function DashboardOverview() {
 
             {/* Header */}
             <div>
-                <h1 className="text-3xl font-bold text-white mb-2">Audit Dashboard</h1>
-                <p className="text-brand-gray">Upload hospital bills for instant AI verification against government benchmarks.</p>
+                <h1 className="text-3xl font-bold text-black mb-2">Audit Dashboard</h1>
+                <p className="text-gray-600">Upload hospital bills for instant AI verification against government benchmarks.</p>
             </div>
 
             {/* Upload Widget */}
             <div
                 {...getRootProps()}
                 className={`glass-card p-10 rounded-2xl border-2 border-dashed transition-all duration-300 cursor-pointer flex flex-col items-center justify-center text-center
-          ${isDragActive ? 'border-brand-blue bg-brand-blue/5' : 'border-white/10 hover:border-white/30 hover:bg-white/[0.02]'}
+          ${isDragActive ? 'border-brand-blue bg-brand-blue/5' : 'border-gray-200 hover:border-gray-300 hover:bg-black/[0.02]'}
           ${uploading ? 'opacity-50 pointer-events-none' : ''}
         `}
             >
                 <input {...getInputProps()} />
                 <div className="w-16 h-16 rounded-full bg-brand-blue/20 flex items-center justify-center mb-4">
                     {uploading ? (
-                        <Loader2 className="w-8 h-8 text-brand-blue animate-spin" />
+                        <Loader2 className="w-8 h-8 text-black animate-spin" />
                     ) : (
-                        <UploadCloud className="w-8 h-8 text-brand-blue" />
+                        <UploadCloud className="w-8 h-8 text-black" />
                     )}
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2">
+                <h3 className="text-xl font-semibold text-black mb-2">
                     {uploading ? 'AI Analysis in Progress...' : 'Drag & Drop your Hospital Bill'}
                 </h3>
-                <p className="text-brand-gray max-w-md mx-auto mb-6">
+                <p className="text-gray-600 max-w-md mx-auto mb-6">
                     {uploading
                         ? 'Extracting line items, checking government benchmarks, and detecting potential overcharges.'
                         : 'Supports PDF, JPG, and PNG files up to 15MB. Ensure line items are clearly legible.'}
@@ -134,8 +134,8 @@ export default function DashboardOverview() {
                             <FileText className="w-6 h-6 text-blue-400" />
                         </div>
                         <div>
-                            <p className="text-sm font-medium text-brand-gray">Total Bills Audited</p>
-                            <h4 className="text-2xl font-bold text-white">{totalBills}</h4>
+                            <p className="text-sm font-medium text-gray-600">Total Bills Audited</p>
+                            <h4 className="text-2xl font-bold text-black">{totalBills}</h4>
                         </div>
                     </div>
                 </div>
@@ -146,7 +146,7 @@ export default function DashboardOverview() {
                             <ShieldCheck className="w-6 h-6 text-green-400" />
                         </div>
                         <div>
-                            <p className="text-sm font-medium text-brand-gray">Potential Savings Found</p>
+                            <p className="text-sm font-medium text-gray-600">Potential Savings Found</p>
                             <h4 className="text-2xl font-bold text-green-400">---</h4>
                         </div>
                     </div>
@@ -158,8 +158,8 @@ export default function DashboardOverview() {
                             <AlertTriangle className="w-6 h-6 text-amber-400" />
                         </div>
                         <div>
-                            <p className="text-sm font-medium text-brand-gray">Pending Reviews</p>
-                            <h4 className="text-2xl font-bold text-white">{processingCount}</h4>
+                            <p className="text-sm font-medium text-gray-600">Pending Reviews</p>
+                            <h4 className="text-2xl font-bold text-black">{processingCount}</h4>
                         </div>
                     </div>
                 </div>
@@ -168,25 +168,25 @@ export default function DashboardOverview() {
             {/* Recent Bills Table */}
             <div>
                 <div className="flex items-end justify-between mb-4">
-                    <h2 className="text-xl font-semibold text-white">Recent Audits</h2>
-                    <button className="text-brand-blue hover:text-white text-sm font-medium flex items-center gap-1 transition-colors">
+                    <h2 className="text-xl font-semibold text-black">Recent Audits</h2>
+                    <button className="text-black hover:text-black text-sm font-medium flex items-center gap-1 transition-colors">
                         View All <ArrowRight className="w-4 h-4" />
                     </button>
                 </div>
 
-                <div className="glass-card rounded-2xl overflow-hidden border border-white/5">
+                <div className="glass-card rounded-2xl overflow-hidden border border-gray-200">
                     {loading ? (
                         <div className="p-12 flex justify-center">
-                            <Loader2 className="w-8 h-8 text-brand-blue animate-spin" />
+                            <Loader2 className="w-8 h-8 text-black animate-spin" />
                         </div>
                     ) : bills.length === 0 ? (
                         <div className="p-16 text-center flex flex-col items-center justify-center relative overflow-hidden">
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-brand-blue/10 rounded-full blur-3xl pointer-events-none" />
-                            <div className="w-20 h-20 bg-gradient-to-br from-brand-blue/10 to-brand-teal/10 rounded-2xl flex items-center justify-center mb-4 shadow-inner border border-white/5 relative z-10">
-                                <FileText className="w-10 h-10 text-brand-blue/50" />
+                            <div className="w-20 h-20 bg-gradient-to-br from-brand-blue/10 to-brand-teal/10 rounded-2xl flex items-center justify-center mb-4 shadow-inner border border-gray-200 relative z-10">
+                                <FileText className="w-10 h-10 text-black/50" />
                             </div>
-                            <h3 className="text-xl font-bold text-white mb-2 relative z-10">Ready for your first audit</h3>
-                            <p className="text-brand-gray max-w-sm mx-auto relative z-10">
+                            <h3 className="text-xl font-bold text-black mb-2 relative z-10">Ready for your first audit</h3>
+                            <p className="text-gray-600 max-w-sm mx-auto relative z-10">
                                 Drag and drop a hospital bill in the widget above to instantly benchmark it against government pricing.
                             </p>
                         </div>
@@ -194,24 +194,24 @@ export default function DashboardOverview() {
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
                                 <thead>
-                                    <tr className="bg-white/5 border-b border-white/5">
-                                        <th className="px-6 py-4 text-xs font-semibold text-brand-gray uppercase tracking-wider">Hospital & Date</th>
-                                        <th className="px-6 py-4 text-xs font-semibold text-brand-gray uppercase tracking-wider">Total Billed</th>
-                                        <th className="px-6 py-4 text-xs font-semibold text-brand-gray uppercase tracking-wider">Status</th>
-                                        <th className="px-6 py-4 text-xs font-semibold text-brand-gray uppercase tracking-wider text-right">Action</th>
+                                    <tr className="bg-white border-b border-gray-200">
+                                        <th className="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">Hospital & Date</th>
+                                        <th className="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">Total Billed</th>
+                                        <th className="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                                        <th className="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-right">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-white/5">
                                     {bills.map((bill) => (
-                                        <tr key={bill.id} className="hover:bg-white/[0.02] transition-colors group">
+                                        <tr key={bill.id} className="hover:bg-black/[0.02] transition-colors group">
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="flex flex-col">
-                                                    <span className="font-medium text-white">{bill.hospital_name || 'Unknown Hospital'}</span>
-                                                    <span className="text-xs text-brand-gray">{format(new Date(bill.created_at), 'MMM dd, yyyy • h:mm a')}</span>
+                                                    <span className="font-medium text-black">{bill.hospital_name || 'Unknown Hospital'}</span>
+                                                    <span className="text-xs text-gray-600">{format(new Date(bill.created_at), 'MMM dd, yyyy • h:mm a')}</span>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className="text-white font-medium">
+                                                <span className="text-black font-medium">
                                                     {bill.total_amount ? `₹${bill.total_amount.toLocaleString()}` : '--'}
                                                 </span>
                                             </td>
@@ -227,7 +227,7 @@ export default function DashboardOverview() {
                                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                 <button
                                                     onClick={() => router.push(`/dashboard/bills/${bill.id}`)}
-                                                    className="text-brand-blue hover:text-white flex items-center justify-end gap-1 ml-auto opacity-0 group-hover:opacity-100 transition-all font-semibold"
+                                                    className="text-black hover:text-black flex items-center justify-end gap-1 ml-auto opacity-0 group-hover:opacity-100 transition-all font-semibold"
                                                 >
                                                     View Report <ArrowUpRight className="w-4 h-4" />
                                                 </button>

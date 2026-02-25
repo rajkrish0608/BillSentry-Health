@@ -20,52 +20,44 @@
 /* ── Token System ── */
 :root {
   /* ─ Backgrounds ─ */
-  --bg-primary: #050505;
-  /* Deep Void Black */
-  --bg-secondary: #0B0E14;
-  /* Midnight Navy */
-  --bg-panel: rgba(255, 255, 255, 0.02);
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F9FAFB;
+  --bg-panel: rgba(255, 255, 255, 0.9);
 
   /* ─ Typography ─ */
-  --text-primary: #FFFFFF;
-  /* High Contrast White */
-  --text-secondary: #8892B0;
-  /* Silver Ash */
-  --text-muted: #495670;
+  --text-primary: #000000;
+  --text-secondary: #4B5563;
+  --text-muted: #9CA3AF;
 
-  /* ─ Neon Accents ─ */
-  --accent-cyan: #00F0FF;
-  --accent-cyan-glow: rgba(0, 240, 255, 0.15);
-  --accent-mint: #00E676;
-  --accent-mint-glow: rgba(0, 230, 118, 0.15);
+  /* ─ Accents (Pure Black/White combination) ─ */
+  --accent-cyan: #000000;
+  --accent-cyan-glow: rgba(0, 0, 0, 0.05);
+  --accent-mint: #000000;
+  --accent-mint-glow: rgba(0, 0, 0, 0.05);
   --accent-amber: #F59E0B;
-  --accent-amber-glow: rgba(245, 158, 11, 0.15);
+  --accent-amber-glow: rgba(245, 158, 11, 0.1);
 
-  /* ─ Glass Panel (exact document spec values) ─ */
-  --glass-bg: rgba(255, 255, 255, 0.02);
-  --glass-blur: 24px;
-  --glass-border: rgba(255, 255, 255, 0.06);
-  --glass-shadow-outer: 0 10px 40px rgba(0, 0, 0, 0.25);
-  --glass-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  --glass-border-hover: rgba(255, 255, 255, 0.10);
-  --glass-shadow-hover: 0 14px 50px rgba(0, 0, 0, 0.30);
+  /* ─ Glass Panel (Clean, Minimalist) ─ */
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-blur: 16px;
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --glass-shadow-outer: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --glass-shadow-inset: none;
+  --glass-border-hover: rgba(0, 0, 0, 0.2);
+  --glass-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.08);
 
-  /* ─ Row hover (spec: rgba(255,255,255,0.05)) ─ */
-  --row-hover-bg: rgba(255, 255, 255, 0.05);
+  /* ─ Row hover ─ */
+  --row-hover-bg: rgba(0, 0, 0, 0.02);
 
-  /* ─ Motion (spec: cubic-bezier(0.17, 0.67, 0.83, 0.67)) ─ */
+  /* ─ Motion ─ */
   --ease-premium: cubic-bezier(0.17, 0.67, 0.83, 0.67);
   --duration-micro: 120ms;
-  /* hovers, toggles: 120–150ms */
   --duration-hover: 150ms;
-  /* tooltip fade-in: 150ms */
   --duration-cta: 200ms;
-  /* CTA hover shadow */
   --duration-macro: 300ms;
-  /* modals, page transitions: max 300ms */
 
   /* ─ Border ─ */
-  --border-glass: rgba(255, 255, 255, 0.06);
+  --border-glass: rgba(0, 0, 0, 0.1);
 }
 
 @theme inline {
@@ -222,7 +214,7 @@ body {
 /* ── Button System ── */
 .btn-primary {
   background: var(--accent-cyan);
-  color: #050505;
+  color: #FFFFFF;
   font-weight: 700;
   font-family: 'Inter', sans-serif;
   padding: 12px 28px;
@@ -232,13 +224,13 @@ body {
   transition:
     transform var(--duration-cta) var(--ease-premium),
     box-shadow var(--duration-cta) var(--ease-premium);
-  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
   /* Magnetic/Neon hover */
-  box-shadow: 0 8px 30px rgba(0, 240, 255, 0.5);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 .btn-secondary {
@@ -256,8 +248,8 @@ body {
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(0, 0, 0, 0.15);
 }
 
 /* ── Table Row Hover (spec: rgba(255,255,255,0.05) at 120ms) ── */
@@ -363,8 +355,8 @@ body {
 
 /* ── Selection ── */
 ::selection {
-  background: var(--accent-cyan);
-  color: #050505;
+  background: #000000;
+  color: #FFFFFF;
 }
 
 /* ── Focus Ring ── */

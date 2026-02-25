@@ -34,14 +34,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     // Show a loading state while checking auth
     if (!mounted || isLoading || !isAuthenticated) {
         return (
-            <div className="min-h-screen bg-brand-navy flex items-center justify-center">
-                <Loader2 className="w-8 h-8 text-brand-blue animate-spin" />
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                <Loader2 className="w-8 h-8 text-black animate-spin" />
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-brand-navy flex">
+        <div className="min-h-screen bg-gray-50 flex">
             {/* Sidebar - fixed width */}
             <Sidebar />
 
@@ -49,7 +49,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div className="flex-1 ml-[280px] flex flex-col h-screen overflow-hidden">
                 <TopNav />
                 <main className="flex-1 overflow-y-auto p-8 bg-[url('/grid.svg')] bg-center relative">
-                    <div className="absolute inset-0 bg-[#050505]/95 pointer-events-none -z-10" />
+                    <div className="absolute inset-0 bg-white pointer-events-none -z-10" />
                     <div className="max-w-6xl mx-auto z-10 relative">
                         <AnimatePresence mode="wait">
                             <motion.div

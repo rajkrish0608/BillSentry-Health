@@ -50,35 +50,35 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="bg-brand-navy-light/80 backdrop-blur-xl border border-white/5 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-gray-50-light/80 backdrop-blur-xl border border-gray-200 rounded-2xl p-8 shadow-2xl">
             <div className="text-center mb-8">
-                <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-                <p className="text-brand-gray">Sign in to access your audit dashboard</p>
+                <h1 className="text-3xl font-bold text-black mb-2">Welcome Back</h1>
+                <p className="text-gray-600">Sign in to access your audit dashboard</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                    <label className="block text-sm font-medium text-brand-gray mb-1">Email Address</label>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">Email Address</label>
                     <input
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-brand-blue transition-all"
+                        className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-black placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-brand-blue transition-all"
                         placeholder="you@example.com"
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-brand-gray mb-1">Password</label>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">Password</label>
                     <input
                         type="password"
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
                         required
-                        className="w-full bg-black/30 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-brand-blue transition-all"
+                        className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-black placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-brand-blue transition-all"
                         placeholder="••••••••"
                     />
                 </div>
@@ -98,9 +98,9 @@ export default function LoginPage() {
                 </button>
             </form>
 
-            <div className="mt-6 text-center text-brand-gray text-sm">
+            <div className="mt-6 text-center text-gray-600 text-sm">
                 Don&apos;t have an account?{' '}
-                <Link href="/register" className="text-brand-blue hover:text-white transition-colors">
+                <Link href="/register" className="text-black hover:text-black transition-colors">
                     Create an account
                 </Link>
             </div>

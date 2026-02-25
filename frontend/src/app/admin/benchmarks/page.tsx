@@ -79,14 +79,14 @@ export default function BenchmarksPage() {
 
     return (
         <div className="space-y-6 animate-fade-in pb-20">
-            <Link href="/admin" className="text-brand-gray hover:text-white flex items-center gap-2 mb-4 transition-colors w-max">
+            <Link href="/admin" className="text-gray-600 hover:text-black flex items-center gap-2 mb-4 transition-colors w-max">
                 <ArrowLeft className="w-4 h-4" /> Back to Dashboard
             </Link>
 
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">Manage Benchmarks</h1>
-                    <p className="text-brand-gray">Upload and review government rate lists (CGHS, NPPA).</p>
+                    <h1 className="text-3xl font-bold text-black mb-2">Manage Benchmarks</h1>
+                    <p className="text-gray-600">Upload and review government rate lists (CGHS, NPPA).</p>
                 </div>
 
                 <div>
@@ -108,13 +108,13 @@ export default function BenchmarksPage() {
                 </div>
             </div>
 
-            <div className="glass-card rounded-2xl overflow-hidden border border-white/5">
-                <div className="p-4 border-b border-white/5 bg-white/5 flex items-center justify-between">
-                    <h3 className="font-semibold text-white flex items-center gap-2">
-                        <FileText className="w-4 h-4 text-brand-blue" />
+            <div className="glass-card rounded-2xl overflow-hidden border border-gray-200">
+                <div className="p-4 border-b border-gray-200 bg-white flex items-center justify-between">
+                    <h3 className="font-semibold text-black flex items-center gap-2">
+                        <FileText className="w-4 h-4 text-black" />
                         Active Rate Rules
                     </h3>
-                    <span className="text-xs text-brand-gray bg-brand-navy px-2 py-1 rounded w-max">
+                    <span className="text-xs text-gray-600 bg-gray-50 px-2 py-1 rounded w-max">
                         {benchmarks.length} rules loaded
                     </span>
                 </div>
@@ -122,41 +122,41 @@ export default function BenchmarksPage() {
                 <div className="overflow-x-auto max-h-[600px]">
                     {loading ? (
                         <div className="p-12 flex justify-center">
-                            <Loader2 className="w-8 h-8 text-brand-blue animate-spin" />
+                            <Loader2 className="w-8 h-8 text-black animate-spin" />
                         </div>
                     ) : benchmarks.length > 0 ? (
                         <table className="w-full text-left border-collapse">
-                            <thead className="sticky top-0 bg-brand-navy z-10 border-b border-white/5 shadow-md">
+                            <thead className="sticky top-0 bg-gray-50 z-10 border-b border-gray-200 shadow-md">
                                 <tr>
-                                    <th className="px-6 py-4 text-xs font-semibold text-brand-gray uppercase tracking-wider">Code / Desc</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-brand-gray uppercase tracking-wider">Category</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-brand-gray uppercase tracking-wider">City</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-brand-gray uppercase tracking-wider text-right">Max Limit</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-brand-gray uppercase tracking-wider">Source</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">Code / Desc</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">Category</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">City</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-right">Max Limit</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">Source</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-white/5">
                                 {benchmarks.map((item) => (
-                                    <tr key={item.id} className="hover:bg-white/[0.02] transition-colors">
+                                    <tr key={item.id} className="hover:bg-black/[0.02] transition-colors">
                                         <td className="px-6 py-4">
-                                            <p className="text-sm font-bold text-white">{item.code}</p>
-                                            <p className="text-xs text-brand-gray mt-1 truncate max-w-xs">{item.name}</p>
+                                            <p className="text-sm font-bold text-black">{item.code}</p>
+                                            <p className="text-xs text-gray-600 mt-1 truncate max-w-xs">{item.name}</p>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="text-xs text-brand-gray bg-white/5 px-2 py-1 rounded-md">
+                                            <span className="text-xs text-gray-600 bg-white px-2 py-1 rounded-md">
                                                 {item.category.replace('_', ' ')}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-brand-gray">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                             {item.city || 'ALL'}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right">
-                                            <span className="text-sm font-medium text-white">₹{item.benchmark_max.toLocaleString()}</span>
+                                            <span className="text-sm font-medium text-black">₹{item.benchmark_max.toLocaleString()}</span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span className={`text-xs font-bold px-2 py-1 rounded-md ${item.source === 'CGHS' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
                                                     item.source === 'NPPA' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' :
-                                                        'bg-brand-gray/10 text-brand-gray border border-white/10'
+                                                        'bg-brand-gray/10 text-gray-600 border border-gray-200'
                                                 }`}>
                                                 {item.source}
                                             </span>
@@ -166,7 +166,7 @@ export default function BenchmarksPage() {
                             </tbody>
                         </table>
                     ) : (
-                        <div className="p-12 text-center text-brand-gray">
+                        <div className="p-12 text-center text-gray-600">
                             <p>No benchmarks found. Upload a CSV to populate the rate engine.</p>
                         </div>
                     )}

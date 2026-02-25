@@ -9,14 +9,14 @@ const steps = [
         number: "01",
         title: "Upload",
         description: "Drag and drop your hospital bill. PDF, image, or scan — our engine handles them all. Zero setup required.",
-        accent: "#00F0FF",
+        accent: "#000000",
     },
     {
         id: "extract",
         number: "02",
         title: "Extract",
         description: "AI-powered OCR and NLP extract every line item, CPT code, medication, and charge into structured data.",
-        accent: "#00E676",
+        accent: "#111827",
     },
     {
         id: "benchmark",
@@ -30,7 +30,7 @@ const steps = [
         number: "04",
         title: "Report",
         description: "Receive a confidence-scored audit report with variance flags, benchmark evidence, and dispute-ready documentation.",
-        accent: "#00F0FF",
+        accent: "#000000",
     },
 ];
 
@@ -41,7 +41,7 @@ export default function HowItWorksTabs() {
     const activeStep = steps[activeStepIndex];
 
     return (
-        <section id="how-it-works" className="relative py-28 overflow-hidden bg-[#050505]">
+        <section id="how-it-works" className="relative py-28 overflow-hidden bg-white">
             {/* Background radial glow based on active tab */}
             <div className="absolute inset-0 transition-colors duration-1000" style={{
                 background: `radial-gradient(circle at 50% 50%, ${activeStep.accent}10 0%, transparent 60%)`
@@ -78,7 +78,7 @@ export default function HowItWorksTabs() {
                     {/* Tabs Menu */}
                     <div className="col-span-1 md:col-span-4 flex flex-col gap-2 relative">
                         {/* Vertical connector line */}
-                        <div className="absolute left-6 md:left-8 top-8 bottom-8 w-px bg-white/5 z-0 hidden md:block" />
+                        <div className="absolute left-6 md:left-8 top-8 bottom-8 w-px bg-white z-0 hidden md:block" />
 
                         {steps.map((step) => {
                             const isActive = activeTab === step.id;
@@ -86,7 +86,7 @@ export default function HowItWorksTabs() {
                                 <button
                                     key={step.id}
                                     onClick={() => setActiveTab(step.id)}
-                                    className={`group relative text-left p-4 rounded-xl transition-all duration-300 z-10 ${isActive ? "bg-white/5" : "hover:bg-white/5"
+                                    className={`group relative text-left p-4 rounded-xl transition-all duration-300 z-10 ${isActive ? "bg-white" : "hover:bg-white"
                                         }`}
                                     style={{
                                         border: isActive ? `1px solid ${step.accent}20` : "1px solid transparent",

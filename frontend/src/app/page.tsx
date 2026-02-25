@@ -140,7 +140,7 @@ function Navbar() {
               justifyContent: "center",
               fontWeight: 700,
               fontSize: 14,
-              color: "#00F0FF",
+              color: "#000000",
               boxShadow: "0 0 15px rgba(0, 240, 255, 0.2)",
             }}
           >
@@ -177,7 +177,7 @@ function Navbar() {
               >
                 {item}
                 {/* Magnetic Hover Line */}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-gradient-to-r from-[#00F0FF] to-[#00E676] transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-gradient-to-r from-black to-[#111827] transition-all duration-300 group-hover:w-full"></span>
               </a>
             )
           )}
@@ -289,7 +289,7 @@ function Features() {
       description:
         "Upload any hospital bill — PDF, image, or scan. Our engine extracts every line item, CPT code, and charge using advanced OCR and NLP.",
       span: "col-span-1 md:col-span-2",
-      accentColor: "#00F0FF",
+      accentColor: "#000000",
     },
     {
       icon: "📊",
@@ -297,7 +297,7 @@ function Features() {
       description:
         "Instantly compare charges against public databases. Variance calculated to the decimal.",
       span: "col-span-1",
-      accentColor: "#00E676",
+      accentColor: "#111827",
     },
     {
       icon: "⚡",
@@ -313,7 +313,7 @@ function Features() {
       description:
         "Each audit generates a confidence score reflecting data quality and statistical reliability.",
       span: "col-span-1",
-      accentColor: "#00F0FF",
+      accentColor: "#000000",
     },
     {
       icon: "🔔",
@@ -321,7 +321,7 @@ function Features() {
       description:
         "Instant notifications when anomalies are detected. Stay informed with smart priority-based alerts.",
       span: "col-span-1",
-      accentColor: "#00E676",
+      accentColor: "#111827",
     },
     {
       icon: "📋",
@@ -329,7 +329,7 @@ function Features() {
       description:
         "Auto-generated, legally-formatted dispute letters with variance evidence and regulatory references.",
       span: "col-span-1 md:col-span-3",
-      accentColor: "#00F0FF",
+      accentColor: "#000000",
     },
   ];
 
@@ -342,7 +342,7 @@ function Features() {
               className="text-micro inline-block mb-4 px-4 py-1.5 rounded-full"
               style={{
                 border: "1px solid rgba(0, 240, 255, 0.2)",
-                color: "#00F0FF",
+                color: "#000000",
                 background: "rgba(0, 240, 255, 0.05)",
               }}
             >
@@ -476,7 +476,7 @@ function HowItWorks() {
               className="text-micro inline-block mb-4 px-4 py-1.5 rounded-full"
               style={{
                 border: "1px solid rgba(0, 230, 118, 0.2)",
-                color: "#00E676",
+                color: "#111827",
                 background: "rgba(0, 230, 118, 0.05)",
               }}
             >
@@ -649,7 +649,7 @@ function Pricing() {
                 style={{
                   background: plan.featured
                     ? "rgba(16, 185, 129, 0.04)"
-                    : "rgba(255, 255, 255, 0.02)",
+                    : "rgba(0, 0, 0, 0.02)",
                   border: plan.featured
                     ? "1px solid rgba(16, 185, 129, 0.25)"
                     : "1px solid rgba(255, 255, 255, 0.06)",
@@ -882,7 +882,7 @@ function Trust() {
               <div
                 className="rounded-2xl p-6"
                 style={{
-                  background: "rgba(255, 255, 255, 0.02)",
+                  background: "rgba(0, 0, 0, 0.02)",
                   border: "1px solid rgba(255, 255, 255, 0.06)",
                   transition: "all 0.3s ease",
                 }}

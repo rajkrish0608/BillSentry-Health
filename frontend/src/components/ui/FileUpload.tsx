@@ -94,8 +94,8 @@ export function FileUpload({
                 className={`
                     relative w-full rounded-3xl overflow-hidden group transition-all duration-500
                     ${isDragActive
-                        ? "border-[#00F0FF] bg-[#00F0FF]/5"
-                        : "border-white/10 bg-[#050505]/60 hover:border-[#00F0FF]/30 hover:bg-white/5"
+                        ? "border-black bg-white"
+                        : "border-gray-200 bg-white hover:border-gray-300 hover:bg-white"
                     }
                 `}
                 style={{
@@ -133,7 +133,7 @@ export function FileUpload({
                     >
                         <motion.svg
                             width="36" height="36" viewBox="0 0 24 24" fill="none"
-                            stroke={isDragActive ? "#00F0FF" : "#8892B0"}
+                            stroke={isDragActive ? "#000000" : "#8892B0"}
                             strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
                             animate={{
                                 scale: isDragActive ? 1.1 : 1,
@@ -149,20 +149,20 @@ export function FileUpload({
 
                     {/* Text Area */}
                     <h3
-                        className="text-2xl font-bold mb-3 text-white transition-colors relative z-10"
+                        className="text-2xl font-bold mb-3 text-black transition-colors relative z-10"
                         style={{ fontFamily: "'Satoshi', sans-serif", letterSpacing: "-0.01em" }}
                     >
                         {isDragActive ? "Drop to initialize scan" : "Drag & drop to analyze"}
                     </h3>
-                    <p className="text-[#8892B0] text-[15px] font-medium max-w-sm mb-8 relative z-10">
+                    <p className="text-gray-500 text-[15px] font-medium max-w-sm mb-8 relative z-10">
                         Upload your hospital bill securely. AI extraction begins instantly upon submission.
                     </p>
 
                     {/* Supported Types Badges */}
                     <div className="flex gap-2 justify-center opacity-70 pointer-events-none relative z-10">
-                        <div className="px-3 py-1 rounded-md text-xs font-bold text-white bg-white/5 border border-white/10 uppercase tracking-widest">PDF</div>
-                        <div className="px-3 py-1 rounded-md text-xs font-bold text-white bg-white/5 border border-white/10 uppercase tracking-widest">JPG</div>
-                        <div className="px-3 py-1 rounded-md text-xs font-bold text-white bg-white/5 border border-white/10 uppercase tracking-widest">PNG</div>
+                        <div className="px-3 py-1 rounded-md text-xs font-bold text-black bg-white border border-gray-200 uppercase tracking-widest">PDF</div>
+                        <div className="px-3 py-1 rounded-md text-xs font-bold text-black bg-white border border-gray-200 uppercase tracking-widest">JPG</div>
+                        <div className="px-3 py-1 rounded-md text-xs font-bold text-black bg-white border border-gray-200 uppercase tracking-widest">PNG</div>
                     </div>
                 </div>
             </motion.div>

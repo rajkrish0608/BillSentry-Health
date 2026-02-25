@@ -280,7 +280,7 @@ export default function CinematicHero() {
                         className="text-micro inline-block mb-6 px-5 py-2 rounded-full relative z-10"
                         style={{
                             border: "1px solid rgba(0, 240, 255, 0.3)",
-                            color: "#00F0FF",
+                            color: "#000000",
                             background: "rgba(0, 240, 255, 0.05)",
                             fontSize: "12px",
                             letterSpacing: "0.15em",
@@ -415,7 +415,7 @@ export default function CinematicHero() {
                         style={{
                             width: `${scrollProgress * 100}%`,
                             background:
-                                "linear-gradient(90deg, #00F0FF 0%, #00E676 100%)",
+                                "linear-gradient(90deg, #000000 0%, #111827 100%)",
                             transition: "width 0.1s linear",
                             boxShadow: "0 0 15px rgba(0, 240, 255, 0.5)",
                         }}

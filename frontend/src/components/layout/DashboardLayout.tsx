@@ -26,7 +26,7 @@ export default function DashboardLayout({
     ];
 
     return (
-        <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] relative selection:bg-[var(--accent-emerald)] selection:text-white flex overflow-hidden">
+        <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] relative selection:bg-[var(--accent-emerald)] selection:text-black flex overflow-hidden">
 
             {/* ── Background Gradients ── */}
             <div className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full blur-[200px] pointer-events-none opacity-[0.03]" style={{ background: "var(--accent-emerald)" }} />
@@ -35,7 +35,7 @@ export default function DashboardLayout({
             {/* ── Mobile Sidebar Overlay ── */}
             {sidebarOpen && (
                 <div
-                    className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+                    className="fixed inset-0 bg-white backdrop-blur-sm z-40 lg:hidden"
                     onClick={() => setSidebarOpen(false)}
                 />
             )}
@@ -48,7 +48,7 @@ export default function DashboardLayout({
                 <div className="h-20 flex items-center px-6 border-b border-[var(--border-glass)]">
                     <Link href="/dashboard" className="flex items-center gap-3 group">
                         <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105" style={{ background: "linear-gradient(135deg, var(--accent-emerald), #059669)", boxShadow: "0 0 15px rgba(16, 185, 129, 0.2)" }}>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-black">
                                 <path d="M9 12l2 2 4-4" />
                                 <path d="M12 3a9 9 0 1 0 9 9" />
                             </svg>
@@ -56,7 +56,7 @@ export default function DashboardLayout({
                         <span className="text-section-title !text-base">BillSentry</span>
                     </Link>
 
-                    <button className="ml-auto lg:hidden text-[var(--text-secondary)] hover:text-white" onClick={() => setSidebarOpen(false)}>
+                    <button className="ml-auto lg:hidden text-[var(--text-secondary)] hover:text-black" onClick={() => setSidebarOpen(false)}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
                         </svg>
@@ -75,7 +75,7 @@ export default function DashboardLayout({
                                 href={item.href}
                                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm font-medium ${isActive
                                         ? "bg-[var(--accent-emerald-glow)] text-[var(--accent-emerald)] shadow-[inset_2px_0_0_0_var(--accent-emerald)]"
-                                        : "text-[var(--text-secondary)] hover:text-white hover:bg-[rgba(255,255,255,0.05)]"
+                                        : "text-[var(--text-secondary)] hover:text-black hover:bg-[rgba(255,255,255,0.05)]"
                                     }`}
                             >
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={isActive ? "opacity-100" : "opacity-70"}>
@@ -114,7 +114,7 @@ export default function DashboardLayout({
                 {/* Top Header */}
                 <header className="h-20 border-b border-[var(--border-glass)] bg-[rgba(15,23,42,0.6)] backdrop-blur-xl sticky top-0 z-30 flex items-center justify-between px-6 shrink-0">
                     <div className="flex items-center gap-4">
-                        <button className="lg:hidden text-[var(--text-secondary)] hover:text-white" onClick={() => setSidebarOpen(true)}>
+                        <button className="lg:hidden text-[var(--text-secondary)] hover:text-black" onClick={() => setSidebarOpen(true)}>
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" />
                             </svg>
@@ -127,7 +127,7 @@ export default function DashboardLayout({
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <button className="w-10 h-10 rounded-full bg-[rgba(255,255,255,0.05)] border border-[var(--border-glass)] flex items-center justify-center text-[var(--text-secondary)] hover:text-white hover:bg-[rgba(255,255,255,0.1)] transition-colors relative">
+                        <button className="w-10 h-10 rounded-full bg-[rgba(255,255,255,0.05)] border border-[var(--border-glass)] flex items-center justify-center text-[var(--text-secondary)] hover:text-black hover:bg-[rgba(255,255,255,0.1)] transition-colors relative">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />
                             </svg>

@@ -137,8 +137,8 @@ export default function ParticleField({
         () => ({
             uProgress: { value: 0 },
             uTime: { value: 0 },
-            uColorChaos: { value: new THREE.Color("#00F0FF") }, // Neon Cyan
-            uColorOrder: { value: new THREE.Color("#00E676") }, // Neon Mint
+            uColorChaos: { value: new THREE.Color("#000000") }, // Neon Cyan
+            uColorOrder: { value: new THREE.Color("#111827") }, // Neon Mint
         }),
         []
     );
@@ -163,7 +163,7 @@ export default function ParticleField({
     const lineUniforms = useMemo(
         () => ({
             uLineAlpha: { value: 0 },
-            uLineColor: { value: new THREE.Color("#00E676") }, // Neon Mint
+            uLineColor: { value: new THREE.Color("#111827") }, // Neon Mint
         }),
         []
     );

@@ -33,14 +33,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     // Show a loading state while checking auth
     if (!mounted || isLoading || !isAuthenticated || !user?.is_admin) {
         return (
-            <div className="min-h-screen bg-brand-navy flex items-center justify-center">
-                <Loader2 className="w-8 h-8 text-brand-blue animate-spin" />
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                <Loader2 className="w-8 h-8 text-black animate-spin" />
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-brand-navy flex">
+        <div className="min-h-screen bg-gray-50 flex">
             {/* Sidebar - fixed width */}
             <Sidebar />
 
@@ -48,7 +48,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <div className="flex-1 ml-64 flex flex-col h-screen overflow-hidden">
                 <TopNav />
                 <main className="flex-1 overflow-y-auto p-8 bg-[url('/grid.svg')] bg-center bg-fixed">
-                    <div className="absolute inset-0 bg-brand-navy/90 pointer-events-none -z-10" />
+                    <div className="absolute inset-0 bg-gray-50/90 pointer-events-none -z-10" />
                     <div className="max-w-6xl mx-auto z-10 relative">
                         {children}
                     </div>
