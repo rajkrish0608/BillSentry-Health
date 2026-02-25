@@ -127,10 +127,10 @@ export default function FloatingDocument({
             uScanPosition: { value: -0.1 },
             uOpacity: { value: 1.0 },
             uTime: { value: 0 },
-            uScanColor: { value: new THREE.Color("#10B981") },
-            // Paper tone — noticeably lighter than page for clear visibility
-            uBaseColor: { value: new THREE.Color("#4a6a94") },
-            uPaperEdge: { value: new THREE.Color("#93C5FD") },
+            uScanColor: { value: new THREE.Color("#00F0FF") }, // Neon Cyan
+            // Premium Void — deep tech navy instead of paper white
+            uBaseColor: { value: new THREE.Color("#0B0E14") },
+            uPaperEdge: { value: new THREE.Color("#00F0FF") }, // Cyan Edge Glow
         }),
         []
     );

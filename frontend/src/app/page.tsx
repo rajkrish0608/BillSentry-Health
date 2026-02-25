@@ -5,7 +5,15 @@ import dynamic from "next/dynamic";
 import { motion, useInView } from "framer-motion";
 
 const CinematicHero = dynamic(
-  () => import("@/components/landing/CinematicHero"),
+  () => import("@/components/landing/CinematicHero")
+);
+const HowItWorksTabs = dynamic(
+  () => import("@/components/landing/HowItWorksTabs"),
+  { ssr: false }
+);
+
+const Marquee = dynamic(
+  () => import("@/components/landing/Marquee"),
   { ssr: false }
 );
 
@@ -127,14 +135,14 @@ function Navbar() {
               height: 32,
               borderRadius: 8,
               background:
-                "linear-gradient(135deg, #10B981 0%, #059669 100%)",
+                "linear-gradient(135deg, #00F0FF 0%, #00E676 100%)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               fontWeight: 700,
               fontSize: 14,
-              color: "#fff",
-              boxShadow: "0 2px 12px rgba(16, 185, 129, 0.3)",
+              color: "#050505",
+              boxShadow: "0 2px 12px rgba(0, 240, 255, 0.3)",
             }}
           >
             BS
@@ -219,7 +227,7 @@ function StatsBar() {
         className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px"
         style={{
           background:
-            "linear-gradient(90deg, transparent 0%, rgba(16, 185, 129, 0.3) 50%, transparent 100%)",
+            "linear-gradient(90deg, transparent 0%, rgba(0, 240, 255, 0.3) 50%, transparent 100%)",
         }}
       />
 
@@ -277,7 +285,7 @@ function SectionDivider({ color = "emerald" }: { color?: "emerald" | "blue" | "a
 }
 
 /* ═══════════════════════════════════════════════════
-   Features — Bento Grid (Linear-inspired)
+   Features — Premium cards with Framer Motion hover
    ═══════════════════════════════════════════════════ */
 function Features() {
   const features = [
@@ -287,15 +295,15 @@ function Features() {
       description:
         "Upload any hospital bill — PDF, image, or scan. Our engine extracts every line item, CPT code, and charge using advanced OCR and NLP.",
       span: "col-span-1 md:col-span-2",
-      accentColor: "#10B981",
+      accentColor: "#00F0FF",
     },
     {
       icon: "📊",
       title: "Benchmark Engine",
       description:
-        "Instantly compare charges against CGHS, PMJAY, and NPPA databases. Variance calculated to the decimal.",
+        "Instantly compare charges against public databases. Variance calculated to the decimal.",
       span: "col-span-1",
-      accentColor: "#3B82F6",
+      accentColor: "#00E676",
     },
     {
       icon: "⚡",
@@ -309,25 +317,25 @@ function Features() {
       icon: "🛡",
       title: "Confidence Scoring",
       description:
-        "Each audit generates a confidence score reflecting data quality, match depth, and statistical reliability.",
+        "Each audit generates a confidence score reflecting data quality and statistical reliability.",
       span: "col-span-1",
-      accentColor: "#10B981",
+      accentColor: "#00F0FF",
     },
     {
       icon: "🔔",
       title: "Real-Time Alerts",
       description:
-        "Instant notifications when anomalies are detected. Stay informed with smart, priority-based alerts across all your audits.",
+        "Instant notifications when anomalies are detected. Stay informed with smart priority-based alerts.",
       span: "col-span-1",
-      accentColor: "#F59E0B",
+      accentColor: "#00E676",
     },
     {
       icon: "📋",
       title: "Dispute Documentation",
       description:
-        "Auto-generated, legally-formatted dispute letters with variance evidence, benchmark citations, and regulatory references.",
+        "Auto-generated, legally-formatted dispute letters with variance evidence and regulatory references.",
       span: "col-span-1 md:col-span-3",
-      accentColor: "#3B82F6",
+      accentColor: "#00F0FF",
     },
   ];
 
@@ -339,9 +347,9 @@ function Features() {
             <span
               className="text-micro inline-block mb-4 px-4 py-1.5 rounded-full"
               style={{
-                border: "1px solid rgba(16, 185, 129, 0.2)",
-                color: "#10B981",
-                background: "rgba(16, 185, 129, 0.05)",
+                border: "1px solid rgba(0, 240, 255, 0.2)",
+                color: "#00F0FF",
+                background: "rgba(0, 240, 255, 0.05)",
               }}
             >
               Features
@@ -361,64 +369,63 @@ function Features() {
           </div>
         </AnimatedSection>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
           {features.map((feature, i) => (
             <AnimatedSection
               key={i}
               delay={i * 0.08}
               className={feature.span}
             >
-              <div
-                className="bento-card group relative rounded-2xl p-7 h-full"
+              <motion.div
+                whileHover={{ y: -5, scale: 1.01 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                className="relative h-full rounded-3xl p-8 overflow-hidden group cursor-default"
                 style={{
-                  background: "rgba(255, 255, 255, 0.02)",
-                  border: "1px solid rgba(255, 255, 255, 0.06)",
-                  transition: "all 0.3s cubic-bezier(0.17, 0.67, 0.83, 0.67)",
-                  cursor: "default",
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget;
-                  el.style.borderColor = `${feature.accentColor}33`;
-                  el.style.boxShadow = `0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05), 0 0 30px ${feature.accentColor}10`;
-                  el.style.transform = "translateY(-2px)";
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget;
-                  el.style.borderColor = "rgba(255,255,255,0.06)";
-                  el.style.boxShadow = "none";
-                  el.style.transform = "translateY(0)";
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
+                  border: "1px solid rgba(255,255,255,0.05)",
+                  boxShadow: "0 10px 30px rgba(0,0,0,0.2)"
                 }}
               >
-                {/* Icon with accent glow */}
+                {/* Hover Glow Background */}
                 <div
-                  className="mb-4 w-10 h-10 flex items-center justify-center rounded-lg text-lg"
-                  style={{
-                    background: `${feature.accentColor}12`,
-                    border: `1px solid ${feature.accentColor}25`,
-                  }}
-                >
-                  {feature.icon}
-                </div>
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                  style={{ background: `radial-gradient(circle at 50% 0%, ${feature.accentColor}15 0%, transparent 70%)` }}
+                />
 
-                <h3
-                  className="text-section-title mb-2"
-                  style={{
-                    fontWeight: 600,
-                    fontSize: "18px",
-                  }}
-                >
-                  {feature.title}
-                </h3>
-                <p
-                  style={{
-                    color: "var(--text-secondary)",
-                    fontSize: "14px",
-                    lineHeight: 1.7,
-                  }}
-                >
-                  {feature.description}
-                </p>
-              </div>
+                <div className="relative z-10">
+                  <div
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-8 shadow-lg transition-transform duration-500 group-hover:scale-110"
+                    style={{
+                      background: `linear-gradient(135deg, ${feature.accentColor}20 0%, transparent 100%)`,
+                      border: `1px solid ${feature.accentColor}30`,
+                      boxShadow: `0 0 20px ${feature.accentColor}15`
+                    }}
+                  >
+                    {feature.icon}
+                  </div>
+                  <h3
+                    className="mb-3"
+                    style={{
+                      fontFamily: "'Satoshi', sans-serif",
+                      fontWeight: 700,
+                      fontSize: "22px",
+                      color: "var(--text-primary)",
+                      letterSpacing: "-0.01em",
+                    }}
+                  >
+                    {feature.title}
+                  </h3>
+                  <p
+                    style={{
+                      color: "var(--text-secondary)",
+                      fontSize: "15px",
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    {feature.description}
+                  </p>
+                </div>
+              </motion.div>
             </AnimatedSection>
           ))}
         </div>
@@ -462,9 +469,9 @@ function HowItWorks() {
     <section id="how-it-works" className="relative py-28 overflow-hidden">
       {/* Background accent */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          background: "linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.5) 50%, transparent 100%)",
+          background: "linear-gradient(180deg, transparent 0%, rgba(5, 5, 5, 0.8) 50%, transparent 100%)",
         }}
       />
 
@@ -474,9 +481,9 @@ function HowItWorks() {
             <span
               className="text-micro inline-block mb-4 px-4 py-1.5 rounded-full"
               style={{
-                border: "1px solid rgba(59, 130, 246, 0.2)",
-                color: "#3B82F6",
-                background: "rgba(59, 130, 246, 0.05)",
+                border: "1px solid rgba(0, 230, 118, 0.2)",
+                color: "#00E676",
+                background: "rgba(0, 230, 118, 0.05)",
               }}
             >
               How It Works
@@ -502,7 +509,7 @@ function HowItWorks() {
             className="absolute left-[28px] md:left-[36px] top-0 bottom-0 w-px"
             style={{
               background:
-                "linear-gradient(180deg, rgba(59, 130, 246, 0.4) 0%, rgba(16, 185, 129, 0.4) 100%)",
+                "linear-gradient(180deg, rgba(0, 240, 255, 0.4) 0%, rgba(0, 230, 118, 0.4) 100%)",
             }}
           />
 
@@ -515,8 +522,8 @@ function HowItWorks() {
                     className="relative z-10 flex-shrink-0 w-14 h-14 md:w-18 md:h-18 rounded-xl flex items-center justify-center"
                     style={{
                       background:
-                        "linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(16, 185, 129, 0.15) 100%)",
-                      border: "1px solid rgba(59, 130, 246, 0.2)",
+                        "linear-gradient(135deg, rgba(0, 240, 255, 0.15) 0%, rgba(0, 230, 118, 0.15) 100%)",
+                      border: "1px solid rgba(0, 240, 255, 0.2)",
                       fontFamily: "'Satoshi', sans-serif",
                       fontWeight: 700,
                       fontSize: "20px",
@@ -1182,16 +1189,18 @@ export default function Home() {
     <main>
       <Navbar />
       <CinematicHero />
+      <Marquee text="Decode Your Bill" />
       <SectionDivider color="emerald" />
       <StatsBar />
       <SectionDivider color="blue" />
-      <Features />
+      <HowItWorksTabs />
       <SectionDivider color="emerald" />
-      <HowItWorks />
+      <Features />
       <SectionDivider color="amber" />
       <Pricing />
       <SectionDivider color="emerald" />
       <Trust />
+      <Marquee text="Take Back Control" />
       <CTA />
       <Footer />
     </main>

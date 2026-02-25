@@ -30,7 +30,7 @@ export default function HeroScene3D({
             }}
             onCreated={({ gl }) => {
                 // Match page background — eliminates the black box
-                gl.setClearColor("#0F172A", 1);
+                gl.setClearColor("#050505", 1);
             }}
             style={{
                 position: "absolute",
@@ -49,24 +49,24 @@ export default function HeroScene3D({
                     intensity={0.7}
                     color="#E2E8F0"
                 />
-                {/* Emerald accent light — top-left */}
+                {/* Neon Cyan accent light — top-left */}
                 <pointLight
                     position={[-4, 3, 4]}
-                    intensity={0.6}
-                    color="#10B981"
+                    intensity={0.8}
+                    color="#00F0FF"
                     distance={20}
                 />
-                {/* Warm amber accent — bottom-right for depth */}
+                {/* Neon Mint accent — bottom-right for depth */}
                 <pointLight
                     position={[4, -2, 3]}
-                    intensity={0.3}
-                    color="#F59E0B"
-                    distance={18}
+                    intensity={0.5}
+                    color="#00E676"
+                    distance={20}
                 />
                 {/* Subtle blue fill from behind */}
                 <pointLight
                     position={[0, 0, -5]}
-                    intensity={0.2}
+                    intensity={0.3}
                     color="#3B82F6"
                     distance={25}
                 />

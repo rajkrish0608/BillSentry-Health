@@ -128,18 +128,17 @@ function NarrativeOverlay({ scrollProgress }: { scrollProgress: number }) {
                         <h2
                             className="mb-6 leading-tight relative z-10"
                             style={{
-                                fontFamily: "'Satoshi', sans-serif",
-                                fontWeight: 700,
-                                fontSize: "clamp(40px, 7vw, 80px)",
-                                letterSpacing: "-0.03em",
+                                fontFamily: "'Clash Display', 'Satoshi', sans-serif",
+                                fontWeight: 600,
+                                fontSize: "clamp(48px, 8vw, 96px)",
+                                letterSpacing: "-0.04em",
                                 lineHeight: 1.05,
                                 background:
-                                    "linear-gradient(180deg, #E2E8F0 0%, #94A3B8 60%, #64748B 100%)",
+                                    "linear-gradient(180deg, #FFFFFF 0%, #8892B0 80%, #495670 100%)",
                                 WebkitBackgroundClip: "text",
                                 WebkitTextFillColor: "transparent",
-                                maxWidth: "900px",
-                                textShadow: "0 2px 20px rgba(0,0,0,0.5)",
-                                filter: "drop-shadow(0 2px 12px rgba(0,0,0,0.4))",
+                                maxWidth: "1000px",
+                                textShadow: "0 4px 30px rgba(0,240,255,0.1)",
                             }}
                         >
                             <WordReveal
@@ -149,14 +148,14 @@ function NarrativeOverlay({ scrollProgress }: { scrollProgress: number }) {
                             />
                         </h2>
                         <p
-                            className="max-w-xl relative z-10"
+                            className="max-w-2xl relative z-10"
                             style={{
-                                color: "#CBD5E1",
-                                fontSize: "clamp(15px, 2vw, 20px)",
-                                lineHeight: 1.7,
+                                color: "#8892B0",
+                                fontSize: "clamp(16px, 2.5vw, 24px)",
+                                lineHeight: 1.6,
                                 opacity: opacity * 0.9,
-                                letterSpacing: "0.01em",
-                                textShadow: "0 1px 8px rgba(0,0,0,0.6)",
+                                letterSpacing: "0.02em",
+                                fontWeight: 400,
                             }}
                         >
                             {slide.subtitle}
@@ -205,52 +204,52 @@ export default function CinematicHero() {
                 <div
                     className="absolute inset-0"
                     style={{
-                        backgroundImage: `radial-gradient(circle, rgba(148, 163, 184, 0.08) 1px, transparent 1px)`,
+                        backgroundImage: `radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px)`,
                         backgroundSize: "32px 32px",
-                        opacity: 0.5 + scrollProgress * 0.3,
+                        opacity: 0.8 + scrollProgress * 0.2,
                     }}
                 />
 
-                {/* Animated gradient orbs — Stripe-inspired */}
+                {/* Animated gradient orbs — Tech Void style */}
                 <div
                     className="absolute rounded-full"
                     style={{
                         top: "20%",
                         left: "15%",
-                        width: "700px",
-                        height: "700px",
+                        width: "800px",
+                        height: "800px",
                         background:
-                            "radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 70%)",
-                        filter: "blur(80px)",
-                        transform: `translate(${scrollProgress * 60}px, ${scrollProgress * -40}px)`,
+                            "radial-gradient(circle, rgba(0, 240, 255, 0.08) 0%, transparent 60%)",
+                        filter: "blur(100px)",
+                        transform: `translate(${scrollProgress * 80}px, ${scrollProgress * -60}px)`,
                         transition: "transform 0.5s ease-out",
                     }}
                 />
                 <div
                     className="absolute rounded-full"
                     style={{
-                        bottom: "15%",
-                        right: "10%",
+                        bottom: "10%",
+                        right: "5%",
+                        width: "900px",
+                        height: "900px",
+                        background:
+                            "radial-gradient(circle, rgba(0, 230, 118, 0.06) 0%, transparent 60%)",
+                        filter: "blur(120px)",
+                        transform: `translate(${scrollProgress * -70}px, ${scrollProgress * 50}px)`,
+                        transition: "transform 0.5s ease-out",
+                    }}
+                />
+                <div
+                    className="absolute rounded-full"
+                    style={{
+                        top: "40%",
+                        left: "50%",
                         width: "600px",
                         height: "600px",
                         background:
-                            "radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 70%)",
-                        filter: "blur(80px)",
-                        transform: `translate(${scrollProgress * -50}px, ${scrollProgress * 30}px)`,
-                        transition: "transform 0.5s ease-out",
-                    }}
-                />
-                <div
-                    className="absolute rounded-full"
-                    style={{
-                        top: "50%",
-                        left: "60%",
-                        width: "500px",
-                        height: "500px",
-                        background:
-                            "radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 70%)",
+                            "radial-gradient(circle, rgba(245, 158, 11, 0.04) 0%, transparent 70%)",
                         filter: "blur(100px)",
-                        transform: `translate(${scrollProgress * 30}px, ${scrollProgress * -20}px) scale(${1 + scrollProgress * 0.2})`,
+                        transform: `translate(${scrollProgress * 40}px, ${scrollProgress * -30}px) scale(${1 + scrollProgress * 0.2})`,
                         transition: "transform 0.5s ease-out",
                     }}
                 />
@@ -273,35 +272,36 @@ export default function CinematicHero() {
                         className="absolute inset-0"
                         style={{
                             background:
-                                "radial-gradient(ellipse at 50% 45%, rgba(15, 23, 42, 0.7) 0%, transparent 70%)",
+                                "radial-gradient(ellipse at 50% 45%, rgba(5, 5, 5, 0.8) 0%, transparent 70%)",
                             pointerEvents: "none",
                         }}
                     />
                     <span
-                        className="text-micro inline-block mb-5 px-4 py-1.5 rounded-full relative z-10"
+                        className="text-micro inline-block mb-6 px-5 py-2 rounded-full relative z-10"
                         style={{
-                            border: "1px solid rgba(16, 185, 129, 0.25)",
-                            color: "#10B981",
-                            background: "rgba(16, 185, 129, 0.06)",
-                            fontSize: "11px",
-                            letterSpacing: "0.08em",
+                            border: "1px solid rgba(0, 240, 255, 0.3)",
+                            color: "#00F0FF",
+                            background: "rgba(0, 240, 255, 0.05)",
+                            fontSize: "12px",
+                            letterSpacing: "0.15em",
+                            boxShadow: "0 0 20px rgba(0,240,255,0.15)",
                         }}
                     >
                         AI-POWERED BILLING INTELLIGENCE
                     </span>
                     <h1
-                        className="mb-5 leading-tight relative z-10"
+                        className="mb-6 leading-none relative z-10"
                         style={{
-                            fontFamily: "'Satoshi', sans-serif",
-                            fontWeight: 700,
-                            fontSize: "clamp(36px, 6vw, 72px)",
-                            letterSpacing: "-0.03em",
-                            lineHeight: 1.05,
+                            fontFamily: "'Clash Display', 'Satoshi', sans-serif",
+                            fontWeight: 600,
+                            fontSize: "clamp(48px, 8vw, 92px)",
+                            letterSpacing: "-0.04em",
                             background:
-                                "linear-gradient(180deg, #F1F5F9 0%, #E2E8F0 40%, #94A3B8 100%)",
+                                "linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 40%, #8892B0 100%)",
                             WebkitBackgroundClip: "text",
                             WebkitTextFillColor: "transparent",
-                            maxWidth: "800px",
+                            maxWidth: "900px",
+                            textShadow: "0 4px 40px rgba(0,240,255,0.15)",
                         }}
                     >
                         Decode your hospital bill. Instantly.
@@ -415,9 +415,9 @@ export default function CinematicHero() {
                         style={{
                             width: `${scrollProgress * 100}%`,
                             background:
-                                "linear-gradient(90deg, #10B981 0%, #3B82F6 50%, #F59E0B 100%)",
+                                "linear-gradient(90deg, #00F0FF 0%, #00E676 100%)",
                             transition: "width 0.1s linear",
-                            boxShadow: "0 0 12px rgba(16, 185, 129, 0.4)",
+                            boxShadow: "0 0 15px rgba(0, 240, 255, 0.5)",
                         }}
                     />
                 </div>

@@ -20,21 +20,26 @@
 /* ── Token System ── */
 :root {
   /* ─ Backgrounds ─ */
-  --bg-primary: #0F172A;
-  --bg-secondary: #1E293B;
-  --bg-panel: rgba(255, 255, 255, 0.03);
+  --bg-primary: #050505;
+  /* Deep Void Black */
+  --bg-secondary: #0B0E14;
+  /* Midnight Navy */
+  --bg-panel: rgba(255, 255, 255, 0.02);
 
-  /* ─ Typography (spec: no pure white — causes halation) ─ */
-  --text-primary: #E2E8F0;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
+  /* ─ Typography ─ */
+  --text-primary: #FFFFFF;
+  /* High Contrast White */
+  --text-secondary: #8892B0;
+  /* Silver Ash */
+  --text-muted: #495670;
 
-  /* ─ Accents (from spec table) ─ */
-  --accent-emerald: #10B981;
-  --accent-emerald-glow: rgba(16, 185, 129, 0.15);
+  /* ─ Neon Accents ─ */
+  --accent-cyan: #00F0FF;
+  --accent-cyan-glow: rgba(0, 240, 255, 0.15);
+  --accent-mint: #00E676;
+  --accent-mint-glow: rgba(0, 230, 118, 0.15);
   --accent-amber: #F59E0B;
   --accent-amber-glow: rgba(245, 158, 11, 0.15);
-  /* Red is PROHIBITED — amber used for all warning/risk states */
 
   /* ─ Glass Panel (exact document spec values) ─ */
   --glass-bg: rgba(255, 255, 255, 0.02);
@@ -69,10 +74,12 @@
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
-  --color-accent-emerald: var(--accent-emerald);
+  --color-accent-cyan: var(--accent-cyan);
+  --color-accent-mint: var(--accent-mint);
   --color-accent-amber: var(--accent-amber);
   --color-border-glass: var(--border-glass);
-  --font-display: 'Satoshi', sans-serif;
+  --color-brand-blue: var(--accent-cyan);
+  --font-display: 'Clash Display', 'Satoshi', sans-serif;
   --font-data: 'Inter', sans-serif;
 }
 
@@ -214,9 +221,9 @@ body {
 
 /* ── Button System ── */
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent-emerald), #059669);
-  color: #fff;
-  font-weight: 600;
+  background: var(--accent-cyan);
+  color: #050505;
+  font-weight: 700;
   font-family: 'Inter', sans-serif;
   padding: 12px 28px;
   border: none;
@@ -225,13 +232,13 @@ body {
   transition:
     transform var(--duration-cta) var(--ease-premium),
     box-shadow var(--duration-cta) var(--ease-premium);
-  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.3);
 }
 
 .btn-primary:hover {
-  transform: translateY(-1px);
-  /* CTA hover: shadow expands over 200ms (var(--duration-cta)) */
-  box-shadow: 0 6px 30px rgba(16, 185, 129, 0.4);
+  transform: translateY(-2px);
+  /* Magnetic/Neon hover */
+  box-shadow: 0 8px 30px rgba(0, 240, 255, 0.5);
 }
 
 .btn-secondary {
@@ -356,13 +363,13 @@ body {
 
 /* ── Selection ── */
 ::selection {
-  background: var(--accent-emerald);
-  color: #fff;
+  background: var(--accent-cyan);
+  color: #050505;
 }
 
 /* ── Focus Ring ── */
 :focus-visible {
-  outline: 2px solid var(--accent-emerald);
+  outline: 2px solid var(--accent-cyan);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -371,4 +378,20 @@ body {
 .risk-ring {
   transition: stroke-dashoffset 1s var(--ease-premium),
     stroke 0.5s var(--ease-premium);
+}
+
+/* ── Marquee Animation ── */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+  will-change: transform;
 }

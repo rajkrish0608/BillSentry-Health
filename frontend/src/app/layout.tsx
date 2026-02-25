@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from 'react-hot-toast';
+import SmoothScroll from "@/components/SmoothScroll";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -41,9 +42,10 @@ export default function RootLayout({
         <meta name="theme-color" content="#0B1120" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/vite.svg" />
-        {/* Satoshi font from Fontshare */}
+        <link rel="apple-touch-icon" href="/vite.svg" />
+        {/* Fontshare: Clash Display & Satoshi */}
         <link
-          href="https://api.fontshare.com/v2/css?f[]=satoshi@700,600,500,400&display=swap"
+          href="https://api.fontshare.com/v2/css?f[]=satoshi@700,600,500,400&f[]=clash-display@700,600,500&display=swap"
           rel="stylesheet"
         />
       </head>
@@ -55,7 +57,9 @@ export default function RootLayout({
             border: '1px solid rgba(255,255,255,0.1)',
           },
         }} />
-        {children}
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );
